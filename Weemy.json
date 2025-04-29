@@ -1,0 +1,15 @@
+{
+    "id": "KRIS",
+    "name": "Weemy",
+    "author": ["Kris and co."],
+    "description": "A mod about my friends :3",
+    "prefix": "mvan",
+    "main_file": "Weemy.lua",
+    "badge_colour": "c7638f",
+    "dependencies": [
+		"Talisman (>=2.0.9)",
+        "Steamodded (>=1.0.0~ALPHA-1225a)"
+		
+    ],
+    "version": "0.1.1"
+}
