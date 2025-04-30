@@ -705,6 +705,24 @@ SMODS.Joker {
 
 	calculate = function(self, card, context)
 		if context.joker_main then
+			G.E_MANAGER:add_event(Event({
+				func = function() 
+					card:juice_up()
+					card.config.center.pos.y = 1
+					return true 
+				end
+			}))
+
+			G.E_MANAGER:add_event(Event({
+				trigger = "after", 
+				blocking = false,
+				delay = 5, 
+				func = function() 
+					card:juice_up()
+					card.config.center.pos.y = 0
+					return true 
+				end
+			}))
 			return {
 				xchips = card.ability.x_chips,
 				emult = card.ability.e_mult,
