@@ -24,6 +24,13 @@ SMODS.Atlas {
 	py = 95
 }
 
+SMODS.Sound {
+	key = "slash",
+	path = {
+		['default'] = "e_the_gift_slash.ogg",
+	}
+}
+
 
 SMODS.Joker {
 	-- How the code refers to the joker.
@@ -674,6 +681,7 @@ Gift_animate = {
 local function giftani(card) 
 	G.E_MANAGER:add_event(Event({
 		func = function() 
+			
 			card:juice_up()
 			card.config.center.pos.y = 1
 			return true 
@@ -728,6 +736,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		-- Checks at the start of blind
 		if context.setting_blind then
+			play_sound('mvan_slash')
 			giftani(card)
 			-- Finds the location of where YOU is
 			local location = nil
