@@ -1,3 +1,5 @@
+assert(SMODS.load_file('Animation.lua'))()
+
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
@@ -640,6 +642,55 @@ SMODS.Joker {
 	atlas = 'KRis',
 
 	pos = { x = 1, y = 1 },
+
+	cost = 3,
+
+	calculate = function(self, card, context)
+		if context.before and context.cardarea == G.jokers then
+			for k, v in ipairs(context.scoring_hand) do
+				if v:is_face() then
+					G.E_MANAGER:add_event(Event({
+						func = function()
+							SMODS.change_base(v, v.base.suit, "Queen")
+							v:juice_up()
+							return true
+						end,
+						delay = 0.2
+					})) 
+				end
+			end
+		end
+	end
+}
+
+Gift_animate = {
+	frame = 0,
+	animation = 0,
+	f = function(self, n) 
+		self["frame"]=math.fmod(n, 5)
+	end
+}
+
+SMODS.Joker {
+
+	key = 'thegift',
+
+	loc_txt = {
+		name = 'THE gift',
+		text = {
+			"Give ^3 mult and X3 chips",
+			"Destroy the jokers to its left and right"
+			}
+	},
+
+	blueprint_compat = false,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 2,
+
+	atlas = 'TheGiftAtlas',
+
+	pos = { x = 0, y = 0 },
 
 	cost = 3,
 
