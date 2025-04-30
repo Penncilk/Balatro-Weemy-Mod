@@ -723,7 +723,7 @@ SMODS.Joker {
 	return { vars = { card.ability.x_chips, card.ability.e_mult } }
 	end,
 
-	cost = 3,
+	cost = 20,
 
 	calculate = function(self, card, context)
 		-- Checks at the start of blind
