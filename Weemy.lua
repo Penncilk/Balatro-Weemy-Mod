@@ -740,13 +740,10 @@ SMODS.Joker {
 			giftani(card)
 			-- Finds the location of where YOU is
 			local location = nil
-			for i, j in ipairs(G.jokers.cards) do
-				print(j)
-				-- Checks if the card in question is ACTUALLY this card
-				for i = 1, #G.jokers.cards do
-					if G.jokers.cards[i] == card then location = i end
-				end
-            end
+			-- Checks if the card in question is ACTUALLY this card
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i] == card then location = i end
+			end
 			-- Gets rid of ajacent if possible
 			if location ~= nil then
 				-- Checking for index out of bounds
