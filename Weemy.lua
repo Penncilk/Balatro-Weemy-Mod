@@ -747,7 +747,7 @@ SMODS.Joker {
 						G.jokers.cards[location-1]:start_dissolve({G.C.RED}, nil, 1.6)
 					end
 				end
-				if location < 5 then
+				if location < #G.jokers.cards then
 					if G.jokers.cards[location+1].config.center_key ~= "j_mvan_thegift" then
 					G.jokers.cards[location+1]:start_dissolve({G.C.RED}, nil, 1.6)
 					end
