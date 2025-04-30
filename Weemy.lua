@@ -683,10 +683,10 @@ SMODS.Joker {
 			}
 	},
 
-	blueprint_compat = false,
+	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
-	rarity = 2,
+	rarity = 4,
 
 	atlas = 'TheGiftAtlas',
 
@@ -697,13 +697,17 @@ SMODS.Joker {
 		e_mult = 3
 	},
 
+	loc_vars = function(self, info_queue, card)  
+	return { vars = { card.ability.x_chips, card.ability.e_mult } }
+	end,
+
 	cost = 3,
 
 	calculate = function(self, card, context)
-		if context.before and context.cardarea == G.jokers then
+		if context.joker_main then
 			return {
-				x_chips = card.ability.x_chips,
-				e_mult = card.ability.e_mult
+				xchips = card.ability.x_chips,
+				emult = card.ability.e_mult,
 			}
 		end
 	end
