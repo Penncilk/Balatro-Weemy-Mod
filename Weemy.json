@@ -1,7 +1,7 @@
 {
     "id": "KRIS",
     "name": "Weemy",
-    "author": ["Kris and co."],
+    "author": ["Kris and Sine"],
     "description": "A mod about my friends :3",
     "prefix": "mvan",
     "main_file": "Weemy.lua",
