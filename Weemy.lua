@@ -650,6 +650,12 @@ SMODS.Joker {
 	end
 }
 
+local table = {
+	Gambling_loop = 'siffrin',
+	_3_Leaf_clover = 'Clover',
+	Clover_Gifts = 'gift_clover',	
+},
+
 SMODS.Joker {
 
 	key = 'gift_clover',
@@ -675,11 +681,6 @@ SMODS.Joker {
 	
 	config = { xmult = 2 },
 	
-	local table = {
-		Gambling_loop = 'siffrin'
-		_3_Leaf_clover = 'Clover'
-		Clover_Gifts = 'gift_clover'	
-	},
 	
 	if context.other_joker then
 		for _, i in ipairs(G.jokers.cards) do
@@ -692,6 +693,7 @@ SMODS.Joker {
 			end
 		end
     end
+
 	
 
 
