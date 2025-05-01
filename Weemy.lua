@@ -681,18 +681,24 @@ SMODS.Joker {
 	
 	config = { xmult = 2 },
 	
+	loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.xmult, card.ability.upgrade } }
+    end,
+
 	
-	if context.other_joker then
-		for _, i in ipairs(G.jokers.cards) do
-			for _, j in ipairs(table) do
-				if i.config.center_key == j then
-					return {
-						xmult = card.ability.xmult,
-					}
+	calculate = function(self, card, context)
+		if context.other_joker then
+			for _, i in ipairs(G.jokers.cards) do
+				for _, j in ipairs(table) do
+					if i.config.center_key == j then
+						return {
+							xmult = card.ability.xmult,
+						}
+					end
 				end
 			end
 		end
-    end
+	end
 }
 	
 
