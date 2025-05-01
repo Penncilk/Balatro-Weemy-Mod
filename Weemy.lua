@@ -660,8 +660,8 @@ SMODS.Joker {
 			-- "contains at least 1 {C:attention}'queen'{}",
 			-- "and {C:attention}'no'{} other face cards",
 			-- ^ this one was the og idea, changed it because both funny new idea, and this one is hard
-			"Each {C:attention}'queen'{} gives {C:chips}#1#{}",
-			"all other {C:attention}'face cards'{} give {C:chips}-#1#{}",
+			"Each {C:attention}queen{} gives {C:chips}#1#{}",
+			"all other {C:attention}face cards{} give {C:chips}-#1#{}",
             }
     },
 
