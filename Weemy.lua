@@ -707,7 +707,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'THE gift',
 		text = {
-			"Give {X:edition,C:white}^#2#{} mult and {X:blue,C:white}x#1#{} chips",
+			"Give {X:edition,C:black}^#2#{} mult and {X:blue,C:white}x#1#{} chips",
 			"Destroy the jokers to its left and right"
 			}
 	},
