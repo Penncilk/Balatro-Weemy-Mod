@@ -1,5 +1,3 @@
-assert(SMODS.load_file('Animation.lua'))()
-
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
@@ -11,24 +9,6 @@ SMODS.Atlas {
 	px = 71,
 	-- Height of each sprite in 1x size
 	py = 95
-}
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "TheGiftAtlas",
-	-- The name of the file, for the code to pull the atlas from
-	path = "TheGiftAtlas.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
-
-SMODS.Sound {
-	key = "slash",
-	path = {
-		['default'] = "e_the_gift_slash.ogg",
-	}
 }
 
 
@@ -617,7 +597,6 @@ if context.before and not context.blueprint then
 						card = self,
 						message = "Get weemyd",
 					}
-				--TODO return the proper upgrade text
 				
 			end
 		end
@@ -670,109 +649,56 @@ SMODS.Joker {
 	end
 }
 
-Gift_animate = {
-	frame = 0,
-	animation = 0,
-	f = function(self, n) 
-		self["frame"]=math.fmod(n, 5)
-	end
-}
-
-local function giftani(card, time) 
-	G.E_MANAGER:add_event(Event({
-		func = function() 
-			
-			card:juice_up()
-			card.config.center.pos.y = 1
-			return true 
-		end
-	}))
-
-	G.E_MANAGER:add_event(Event({
-		trigger = "after", 
-		blocking = false,
-		delay = time, 
-		func = function() 
-			card:juice_up()
-			card.config.center.pos.y = 0
-			return true 
-		end
-	}))
-end
-
 SMODS.Joker {
 
-	key = 'thegift',
+    key = 'a_pipline',
 
-	loc_txt = {
-		name = 'THE gift',
-		text = {
-			"Give ^#2# mult and {X:blue,C:white}x#1#{} chips",
-			"Destroy the jokers to its left and right"
-			}
-	},
+    loc_txt = {
+        name = 'Pipeline',
+        text = {
+            -- "Gain {C:chips}#1#{} chips if hand", 
+			-- "contains at least 1 {C:attention}'queen'{}",
+			-- "and {C:attention}'no'{} other face cards",
+			-- ^ this one was the og idea, changed it because both funny new idea, and this one is hard
+			"Each {C:attention}queen{} gives {C:chips}#1#{}",
+			"all other {C:attention}face cards{} give {C:chips}-#1#{}",
+            }
+    },
 
-	blueprint_compat = true,
-	perishable_compat = true,
-	eternal_compat = true,
-	rarity = 4,
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.chips } }
+    end,
 
-	atlas = 'TheGiftAtlas',
+    config = { chips = 100 },
 
-	pos = { x = 0, y = 0 },
+    blueprint_compat = true,
+    perishable_compat = true,
+    eternal_compat = true,
+    rarity = 1,
+	
+	atlas = 'KRis',
 
-	config = {
-		x_chips = 3,
-		e_mult = 3,
+	pos = { x = 2, y = 2 },
 
-	},
-
-	loc_vars = function(self, info_queue, card)  
-	return { vars = { card.ability.x_chips, card.ability.e_mult } }
-	end,
-
-	cost = 20,
+	cost = 4,
 
 	calculate = function(self, card, context)
-		-- Checks at the start of blind
-		if context.setting_blind then
-			play_sound('mvan_slash')
-			giftani(card, 2)
-			-- Finds the location of where YOU is
-			local location = nil
-			-- Checks if the card in question is ACTUALLY this card
-			for i = 1, #G.jokers.cards do
-				if G.jokers.cards[i] == card then location = i end
+		if context.individual and context.cardarea == G.play then	
+			if context.other_card:get_id() == 12 then
+				return {
+					chips = card.ability.chips,
+					message = ":3c",
+				}
 			end
-			-- Gets rid of ajacent if possible
-			if location ~= nil then
-				-- Checking for index out of bounds
-				if location > 1 then
-					-- If the ajacent joker is another THE gift, don't fw it
-					if G.jokers.cards[location-1].config.center_key ~= "j_mvan_thegift" then
-						G.jokers.cards[location-1]:start_dissolve({G.C.RED}, nil, 1.6)
-					end
-				end
-				if location < #G.jokers.cards then
-					if G.jokers.cards[location+1].config.center_key ~= "j_mvan_thegift" then
-					G.jokers.cards[location+1]:start_dissolve({G.C.RED}, nil, 1.6)
-					end
-				end
+			if context.other_card:get_id() == 11 or context.other_card:get_id() == 13 then
+				return {
+					chips = ((-1)*card.ability.chips),
+					message = ":(",
+				}
 			end
-		end
-		-- When the joker is actually RAN
-		if context.joker_main then
-			giftani(card, 5)
-
-			return {
-				xchips = card.ability.x_chips,
-				emult = card.ability.e_mult,
-			}
 		end
 	end
 }
-
-
 -- TODO:
 -- Have people proofread, make sure my overly long way of writing is actually legible or cut down to make sure it's legible.
 
