@@ -632,18 +632,13 @@ SMODS.Joker {
 	cost = 3,
 
 	calculate = function(self, card, context)
-		if context.before and context.cardarea == G.jokers then
-			for k, v in ipairs(context.scoring_hand) do
-				if v:is_face() then
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							SMODS.change_base(v, v.base.suit, "Queen")
-							v:juice_up()
-							return true
-						end,
-						delay = 0.2
-					})) 
-				end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:is_face() and (context.other_card:get_id() ~= 12) then
+				SMODS.change_base(context.other_card, context.other_card.base.suit, "Queen")
+				context.other_card:juice_up()
+				return {
+					message = "Transfem"
+				}
 			end
 		end
 	end
