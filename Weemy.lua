@@ -678,7 +678,7 @@ Gift_animate = {
 	end
 }
 
-local function giftani(card) 
+local function giftani(card, time) 
 	G.E_MANAGER:add_event(Event({
 		func = function() 
 			
@@ -691,7 +691,7 @@ local function giftani(card)
 	G.E_MANAGER:add_event(Event({
 		trigger = "after", 
 		blocking = false,
-		delay = 5, 
+		delay = time, 
 		func = function() 
 			card:juice_up()
 			card.config.center.pos.y = 0
@@ -737,7 +737,7 @@ SMODS.Joker {
 		-- Checks at the start of blind
 		if context.setting_blind then
 			play_sound('mvan_slash')
-			giftani(card)
+			giftani(card, 2)
 			-- Finds the location of where YOU is
 			local location = nil
 			-- Checks if the card in question is ACTUALLY this card
@@ -762,7 +762,7 @@ SMODS.Joker {
 		end
 		-- When the joker is actually RAN
 		if context.joker_main then
-			giftani(card)
+			giftani(card, 5)
 
 			return {
 				xchips = card.ability.x_chips,
