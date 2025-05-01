@@ -650,6 +650,52 @@ SMODS.Joker {
 	end
 }
 
+SMODS.Joker {
+
+	key = 'gift_clover',
+
+	loc_txt = {
+		name = 'Clover_Gifts',
+		text = {
+			"Each {C: edition}'Clover'{} joker",
+			"gives {X:mult,C:white}x#1#{} mult"
+			}
+	},
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 3,
+
+	atlas = 'KRis',
+
+	pos = { x = 3, y = 2 },
+
+	cost = 3,
+	
+	config = { xmult = 2 },
+	
+	local table = {
+		Gambling_loop = 'siffrin'
+		_3_Leaf_clover = 'Clover'
+		Clover_Gifts = 'gift_clover'
+		
+	}
+	
+	if context.other_joker then
+		for _, i in ipairs(G.jokers.cards) do
+			for _, j in ipairs(table)
+				if i.config.center_key == j then
+					return {
+						xmult = card.ability.xmult,
+					}
+				end
+			end
+		end
+    end
+	
+
+
 
 -- TODO:
 -- Have people proofread, make sure my overly long way of writing is actually legible or cut down to make sure it's legible.
