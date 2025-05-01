@@ -651,9 +651,9 @@ SMODS.Joker {
 }
 
 local clovers = {
-	Gabeling_loop = 'j_mvan_siffrin',
-	_3_Leaf_clover = 'j_mvan_Clover',
-	Clover_Gift = 'j_mvan_gift_clover',	
+	Gabeling_loop = 'siffrin',
+	_3_Leaf_clover = 'Clover',
+	Clover_Gift = 'gift_clover',	
 }
 
 SMODS.Joker {
@@ -689,7 +689,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		if context.other_joker then
 			for _, i in pairs(clovers) do
-				if context.other_joker.config.center_key == i then
+				if context.other_joker.config.center_key == ("j_mvan_"..i) then
 					return {
 						xmult = card.ability.xmult
 					}
