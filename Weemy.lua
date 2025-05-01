@@ -654,7 +654,7 @@ local table = {
 	Gambling_loop = 'siffrin',
 	_3_Leaf_clover = 'Clover',
 	Clover_Gifts = 'gift_clover',	
-},
+}
 
 SMODS.Joker {
 
@@ -684,7 +684,7 @@ SMODS.Joker {
 	
 	if context.other_joker then
 		for _, i in ipairs(G.jokers.cards) do
-			for _, j in ipairs(table)
+			for _, j in ipairs(table) do
 				if i.config.center_key == j then
 					return {
 						xmult = card.ability.xmult,
