@@ -1,3 +1,4 @@
+assert(SMODS.load_file('luts.lua'))()
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
@@ -650,11 +651,7 @@ SMODS.Joker {
 	end
 }
 
-local clovers = {
-	Gabeling_loop = 'siffrin',
-	_3_Leaf_clover = 'Clover',
-	Clover_Gift = 'gift_clover',	
-}
+
 
 SMODS.Joker {
 
@@ -688,7 +685,9 @@ SMODS.Joker {
 	
 	calculate = function(self, card, context)
 		if context.other_joker then
+			local clovers = Clover_Jokers
 			for _, i in pairs(clovers) do
+				-- Checks if each joker is a Clover Joker
 				if context.other_joker.config.center_key == ("j_mvan_"..i) then
 					return {
 						xmult = card.ability.xmult
