@@ -650,10 +650,10 @@ SMODS.Joker {
 	end
 }
 
-local table = {
-	Gambling_loop = 'siffrin',
-	_3_Leaf_clover = 'Clover',
-	Clover_Gifts = 'gift_clover',	
+local clovers = {
+	Gabeling_loop = 'j_mvan_siffrin',
+	_3_Leaf_clover = 'j_mvan_Clover',
+	Clover_Gift = 'j_mvan_gift_clover',	
 }
 
 SMODS.Joker {
@@ -661,9 +661,9 @@ SMODS.Joker {
 	key = 'gift_clover',
 
 	loc_txt = {
-		name = 'Clover_Gifts',
+		name = 'Clover Gifts',
 		text = {
-			"Each {C: edition}'Clover'{} joker",
+			"Each {C:green}'Clover'{} joker",
 			"gives {X:mult,C:white}x#1#{} mult"
 			}
 	},
@@ -682,18 +682,17 @@ SMODS.Joker {
 	config = { xmult = 2 },
 	
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.xmult, card.ability.upgrade } }
+        return { vars = { card.ability.xmult } }
     end,
 
 	
 	calculate = function(self, card, context)
 		if context.other_joker then
 			for _, i in ipairs(G.jokers.cards) do
-				for _, j in ipairs(table) do
+				for _, j in ipairs(clovers) do
 					if i.config.center_key == j then
-						return {
-							xmult = card.ability.xmult,
-						}
+						xmult = card.ability.xmult
+						print(card)
 					end
 				end
 			end
