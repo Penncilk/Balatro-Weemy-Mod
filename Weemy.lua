@@ -688,12 +688,14 @@ SMODS.Joker {
 	
 	calculate = function(self, card, context)
 		if context.other_joker then
-			for _, i in ipairs(G.jokers.cards) do
-				for _, j in ipairs(clovers) do
-					if i.config.center_key == j then
+			print(context.other_joker.config.center_key)
+			for _, i in pairs(clovers) do
+				print(context.other_joker.config.center_key.." -> "..i)
+				print(context.other_joker.config.center_key == i)
+				if context.other_joker.config.center_key == i then
+					return {
 						xmult = card.ability.xmult
-						print(card)
-					end
+					}
 				end
 			end
 		end
