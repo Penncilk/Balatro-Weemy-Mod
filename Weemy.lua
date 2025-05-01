@@ -678,9 +678,8 @@ SMODS.Joker {
 	local table = {
 		Gambling_loop = 'siffrin'
 		_3_Leaf_clover = 'Clover'
-		Clover_Gifts = 'gift_clover'
-		
-	}
+		Clover_Gifts = 'gift_clover'	
+	},
 	
 	if context.other_joker then
 		for _, i in ipairs(G.jokers.cards) do
