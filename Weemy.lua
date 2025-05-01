@@ -597,7 +597,6 @@ if context.before and not context.blueprint then
 						card = self,
 						message = "Get weemyd",
 					}
-				--TODO return the proper upgrade text
 				
 			end
 		end
@@ -650,7 +649,56 @@ SMODS.Joker {
 	end
 }
 
+SMODS.Joker {
 
+    key = 'a_pipline',
+
+    loc_txt = {
+        name = 'Pipeline',
+        text = {
+            -- "Gain {C:chips}#1#{} chips if hand", 
+			-- "contains at least 1 {C:attention}'queen'{}",
+			-- "and {C:attention}'no'{} other face cards",
+			-- ^ this one was the og idea, changed it because both funny new idea, and this one is hard
+			"Each {C:attention}'queen'{} gives {C:chips}#1#{}",
+			"all other {C:attention}'face cards'{} give {C:chips}-#1#{}",
+            }
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.chips } }
+    end,
+
+    config = { chips = 100 },
+
+    blueprint_compat = true,
+    perishable_compat = true,
+    eternal_compat = true,
+    rarity = 1,
+	
+	atlas = 'KRis',
+
+	pos = { x = 1, y = 1 },
+
+	cost = 4,
+
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then	
+			if context.other_card:get_id() == 12 then
+				return {
+					chips = card.ability.chips,
+					message = ":3c",
+				}
+			end
+			if context.other_card:get_id() == 11 or context.other_card:get_id() == 13 then
+				return {
+					chips = ((-1)*card.ability.chips),
+					message = ":(",
+				}
+			end
+		end
+	end
+}
 -- TODO:
 -- Have people proofread, make sure my overly long way of writing is actually legible or cut down to make sure it's legible.
 
