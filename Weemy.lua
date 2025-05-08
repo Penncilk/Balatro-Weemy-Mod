@@ -518,10 +518,19 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Horror^3',
 		text = {
-			"if hand has {C:attention}4{} or less cards",
-			"all played card become {C:edition}negative{}"
+			"if hand has {C:attention}3{} or less cards",
+			"all played card become {C:edition}negative{}",
+			"{C:attention}Self Destructs{} after #1# rounds"
 			}
 	},
+
+	config = {
+		counter = 6
+	},
+
+	loc_vars = function(self, info_queue, card)  
+		return { vars = { card.ability.counter } }
+	end,
 
 	blueprint_compat = false,
 	perishable_compat = true,
@@ -536,11 +545,32 @@ SMODS.Joker {
 	cost = 4,
 
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play and #context.full_hand <= 4 then
+		if (context.individual and context.cardarea == G.play and #context.full_hand <= 3) then
 			for k, v in ipairs(context.scoring_hand) do
-						v:set_edition({negative = true}, true)
-					end
+				v:set_edition({negative = true}, true)
+			end
 		end
+
+		if context.after then
+			card:juice_up()
+			card.ability.counter = card.ability.counter - 1
+			if card.ability.counter == 1 then
+				return {message = card.ability.counter.." Day Left..."}
+			elseif card.ability.counter == 0 then
+				return {message = "..."}
+			else
+				return {message = card.ability.counter.." Days Left..."}
+			end
+		end
+
+		if card.ability.counter == 0 then
+			if card.ability.eternal then
+				card.debuff = true
+			else
+				card:start_dissolve({G.C.RED}, nil, 1.6)
+			end
+		end
+		
 	end
 }
 
