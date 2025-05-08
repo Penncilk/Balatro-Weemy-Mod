@@ -681,10 +681,9 @@ Gift_animate = {
 local function giftani(card, time) 
 	G.E_MANAGER:add_event(Event({
 		func = function() 
-			
 			card:juice_up()
 			card.config.center.pos.y = 1
-			return true 
+			return true
 		end
 	}))
 
@@ -749,12 +748,12 @@ SMODS.Joker {
 				-- Checking for index out of bounds
 				if location > 1 then
 					-- If the ajacent joker is another THE gift, don't fw it
-					if G.jokers.cards[location-1].config.center_key ~= "j_mvan_thegift" then
+					if (G.jokers.cards[location-1].config.center_key ~= "j_mvan_thegift" and not G.jokers.cards[location-1].ability.eternal) then
 						G.jokers.cards[location-1]:start_dissolve({G.C.RED}, nil, 1.6)
 					end
 				end
 				if location < #G.jokers.cards then
-					if G.jokers.cards[location+1].config.center_key ~= "j_mvan_thegift" then
+					if (G.jokers.cards[location+1].config.center_key ~= "j_mvan_thegift" and not G.jokers.cards[location+1].ability.eternal) then
 					G.jokers.cards[location+1]:start_dissolve({G.C.RED}, nil, 1.6)
 					end
 				end
