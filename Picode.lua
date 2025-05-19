@@ -1,5 +1,5 @@
 local Pinumber = 3.14
--- If you get the reference, I'm proud of you :)
+-- There was a doom reference before
 
 SMODS.Atlas {
 	-- Key for code to find it with
