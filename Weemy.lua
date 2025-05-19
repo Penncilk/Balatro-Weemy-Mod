@@ -225,6 +225,8 @@ SMODS.Joker {
 					give_amount = 11
 				elseif (context.other_card:get_id() < 14) and (context.other_card:get_id() > 10) then
 					give_amount = 10
+				elseif (context.other_card.ability.effect == 'Stone Card') then
+					give_amount = 0
 				end
 				-- Adds bonus chips either from bonus cards or perma_bonus
 				give_amount = give_amount + context.other_card.ability.bonus + context.other_card.ability.perma_bonus
