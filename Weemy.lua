@@ -511,6 +511,8 @@ SMODS.Joker {
 	-- end
 }
 
+Obtained_Null = false
+
 SMODS.Joker {
 
 	key = 'm_horror',
@@ -525,7 +527,7 @@ SMODS.Joker {
 	},
 
 	config = {
-		counter = 6
+		counter = 1
 	},
 
 	loc_vars = function(self, info_queue, card)  
@@ -557,13 +559,25 @@ SMODS.Joker {
 			if card.ability.counter == 1 then
 				return {message = card.ability.counter.." Day Left..."}
 			elseif card.ability.counter == 0 then
-				return {message = "..."}
+				local fscreen, _ = love.window.getFullscreen()
+				if (Obtained_Null == false) and fscreen then
+					return {message = "Null Joined the game"}
+				else
+					return {message = "..."}
+				end
 			else
 				return {message = card.ability.counter.." Days Left..."}
 			end
 		end
 
 		if card.ability.counter == 0 then
+			-- The funny thing
+			local fscreen, _ = love.window.getFullscreen()
+			if (Obtained_Null == false) and (not fscreen) then
+				love.window.showMessageBox( "Just so you know...", "Null Joined the game", {"Alright...?"}, "info", false )
+				print("Null Joined the game")
+				Obtained_Null = true
+			end
 			if card.ability.eternal then
 				card.debuff = true
 			else
