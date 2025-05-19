@@ -511,7 +511,7 @@ SMODS.Joker {
 	-- end
 }
 
-Obtained_Null = false
+
 
 SMODS.Joker {
 
@@ -560,7 +560,7 @@ SMODS.Joker {
 				return {message = card.ability.counter.." Day Left..."}
 			elseif card.ability.counter == 0 then
 				local fscreen, _ = love.window.getFullscreen()
-				if (Obtained_Null == false) and fscreen then
+				if (not G.GAME.pool_flags.mvan_horror3die) and fscreen then
 					return {message = "Null Joined the game"}
 				else
 					return {message = "..."}
@@ -573,10 +573,10 @@ SMODS.Joker {
 		if card.ability.counter == 0 then
 			-- The funny thing
 			local fscreen, _ = love.window.getFullscreen()
-			if (Obtained_Null == false) and (not fscreen) then
+			if (not G.GAME.pool_flags.mvan_horror3die) and (not fscreen) then
 				love.window.showMessageBox( "Just so you know...", "Null Joined the game", {"Alright...?"}, "info", false )
 				print("Null Joined the game")
-				Obtained_Null = true
+				G.GAME.pool_flags.mvan_horror3die = true
 			end
 			if card.ability.eternal then
 				card.debuff = true
