@@ -37,6 +37,30 @@ SMODS.Atlas {
 	py = 95
 }
 
+SMODS.Atlas {
+	-- Key for code to find it with
+	key = "taurank_lc",
+	-- The name of the file, for the code to pull the atlas from
+	path = "taurank_lc.png",
+	-- Width of each sprite in 1x size
+	px = 71,
+	-- Height of each sprite in 1x size
+	py = 95
+}
+
+
+
+SMODS.Atlas {
+	-- Key for code to find it with
+	key = "taurank_hc",
+	-- The name of the file, for the code to pull the atlas from
+	path = "taurank_hc.png",
+	-- Width of each sprite in 1x size
+	px = 71,
+	-- Height of each sprite in 1x size
+	py = 95
+}
+
 
 SMODS.Rank {
     key = "pi",
@@ -47,7 +71,6 @@ SMODS.Rank {
     loc_txt = {
         name = 'Pi',
     },
-    hidden = true,
 
     in_pool = function(self, args)
         args.initial_deck = false
@@ -59,6 +82,33 @@ SMODS.Rank {
     hc_atlas = 'pirank_hc',
 
     shorthand = 'Pi',
+
+    next = { "mvan_tau" },
+    strength_effect = {fixed = 1},
+
+    suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
+}
+
+SMODS.Rank {
+    key = "tau",
+    card_key = "T",
+    pos = {x = 0},
+    nominal = Pinumber*2,
+    value = 'Tau',
+    loc_txt = {
+        name = 'Tau',
+    },
+
+    in_pool = function(self, args)
+        args.initial_deck = false
+    end,
+
+    
+
+    lc_atlas = 'taurank_lc', 
+    hc_atlas = 'taurank_hc',
+
+    shorthand = 'Tau',
 
     next = {},
     strength_effect = {ignore = true},
