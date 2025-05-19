@@ -1,4 +1,5 @@
 assert(SMODS.load_file('luts.lua'))()
+assert(SMODS.load_file('Animation.lua'))()
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
@@ -10,6 +11,24 @@ SMODS.Atlas {
 	px = 71,
 	-- Height of each sprite in 1x size
 	py = 95
+}
+
+SMODS.Atlas {
+	-- Key for code to find it with
+	key = "TheGiftAtlas",
+	-- The name of the file, for the code to pull the atlas from
+	path = "TheGiftAtlas.png",
+	-- Width of each sprite in 1x size
+	px = 71,
+	-- Height of each sprite in 1x size
+	py = 95
+}
+
+SMODS.Sound {
+	key = "slash",
+	path = {
+		['default'] = "e_the_gift_slash.ogg",
+	}
 }
 
 
@@ -206,6 +225,8 @@ SMODS.Joker {
 					give_amount = 11
 				elseif (context.other_card:get_id() < 14) and (context.other_card:get_id() > 10) then
 					give_amount = 10
+				elseif (context.other_card.ability.effect == 'Stone Card') then
+					give_amount = 0
 				end
 				-- Adds bonus chips either from bonus cards or perma_bonus
 				give_amount = give_amount + context.other_card.ability.bonus + context.other_card.ability.perma_bonus
@@ -647,6 +668,107 @@ SMODS.Joker {
 					})) 
 				end
 			end
+		end
+	end
+}
+
+Gift_animate = {
+	frame = 0,
+	animation = 0,
+	f = function(self, n) 
+		self["frame"]=math.fmod(n, 5)
+	end
+}
+
+local function giftani(card, time) 
+	G.E_MANAGER:add_event(Event({
+		func = function() 
+			card:juice_up()
+			card.config.center.pos.y = 1
+			return true
+		end
+	}))
+
+	G.E_MANAGER:add_event(Event({
+		trigger = "after", 
+		blocking = false,
+		delay = time, 
+		func = function() 
+			card:juice_up()
+			card.config.center.pos.y = 0
+			return true 
+		end
+	}))
+end
+
+SMODS.Joker {
+
+	key = 'thegift',
+
+	loc_txt = {
+		name = 'THE gift',
+		text = {
+			"Give {X:edition,C:black}^#2#{} mult and {X:blue,C:white}x#1#{} chips",
+			"Destroy the jokers to its left and right"
+			}
+	},
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 4,
+
+	atlas = 'TheGiftAtlas',
+
+	pos = { x = 0, y = 0 },
+
+	config = {
+		x_chips = 3,
+		e_mult = 3,
+
+	},
+
+	loc_vars = function(self, info_queue, card)  
+	return { vars = { card.ability.x_chips, card.ability.e_mult } }
+	end,
+
+	cost = 20,
+
+	calculate = function(self, card, context)
+		-- Checks at the start of blind
+		if context.setting_blind then
+			play_sound('mvan_slash')
+			giftani(card, 2)
+			-- Finds the location of where YOU is
+			local location = nil
+			-- Checks if the card in question is ACTUALLY this card
+			for i = 1, #G.jokers.cards do
+				if G.jokers.cards[i] == card then location = i end
+			end
+			-- Gets rid of ajacent if possible
+			if location ~= nil then
+				-- Checking for index out of bounds
+				if location > 1 then
+					-- If the ajacent joker is another THE gift, don't fw it
+					if (G.jokers.cards[location-1].config.center_key ~= "j_mvan_thegift" and not G.jokers.cards[location-1].ability.eternal) then
+						G.jokers.cards[location-1]:start_dissolve({G.C.RED}, nil, 1.6)
+					end
+				end
+				if location < #G.jokers.cards then
+					if (G.jokers.cards[location+1].config.center_key ~= "j_mvan_thegift" and not G.jokers.cards[location+1].ability.eternal) then
+					G.jokers.cards[location+1]:start_dissolve({G.C.RED}, nil, 1.6)
+					end
+				end
+			end
+		end
+		-- When the joker is actually RAN
+		if context.joker_main then
+			giftani(card, 5)
+
+			return {
+				xchips = card.ability.x_chips,
+				emult = card.ability.e_mult,
+			}
 		end
 	end
 }
