@@ -211,7 +211,7 @@ SMODS.Joker {
 		if context.individual and context.cardarea == G.play then
 				-- Checks to see if the id is an ace or face card,
 				-- Otherwise return the id, as it is equal to the card's value
-				local give_amount = context.other_card:get_id()
+				local give_amount = context.other_card.base.nominal
 				local possible_messages = {
 					'Haha yeah!!',
 					'Integer overflow!!',
@@ -222,11 +222,7 @@ SMODS.Joker {
 					'We love luajit',
 					'lua 5.1 lets goooo'
 				}
-				if context.other_card:get_id() == 14 then
-					give_amount = 11
-				elseif (context.other_card:get_id() < 14) and (context.other_card:get_id() > 10) then
-					give_amount = 10
-				elseif (context.other_card.ability.effect == 'Stone Card') then
+				if (context.other_card.ability.effect == 'Stone Card') then
 					give_amount = 0
 				end
 				-- Adds bonus chips either from bonus cards or perma_bonus

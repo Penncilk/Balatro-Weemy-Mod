@@ -1,4 +1,4 @@
-local Pinumber = 3.141592657
+local Pinumber = 3.14
 -- If you get the reference, I'm proud of you :)
 
 SMODS.Atlas {
@@ -13,7 +13,6 @@ SMODS.Atlas {
 }
 
 
---[[
 SMODS.Atlas {
 	-- Key for code to find it with
 	key = "pirank_lc",
@@ -31,7 +30,7 @@ SMODS.Atlas {
 	-- Key for code to find it with
 	key = "pirank_hc",
 	-- The name of the file, for the code to pull the atlas from
-	path = "pirank_lc.png",
+	path = "pirank_hc.png",
 	-- Width of each sprite in 1x size
 	px = 71,
 	-- Height of each sprite in 1x size
@@ -41,17 +40,32 @@ SMODS.Atlas {
 
 SMODS.Rank {
     key = "pi",
-    card_key = "pi",
+    card_key = "P",
     pos = {x = 0},
     nominal = Pinumber,
-    loc_text = "Pi",
+    value = 'Pi',
+    loc_txt = {
+        name = 'Pi',
+    },
+    hidden = true,
+
+    in_pool = function(self, args)
+        args.initial_deck = false
+    end,
+
+    
 
     lc_atlas = 'pirank_lc', 
-    hc_atlas = 'pirank_lc',
+    hc_atlas = 'pirank_hc',
+
+    shorthand = 'Pi',
+
+    next = {},
+    strength_effect = {ignore = true},
 
     suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
 }
-]]--
+
 
 SMODS.Consumable {
     key = "pitarot",
@@ -61,10 +75,30 @@ SMODS.Consumable {
         name = 'Pi',
         text = { 
             'Converts the rank of',
-            'up to {C:attention}3{} selected cards', 
+            'up to {C:attention}#1#{} selected cards', 
             'to {C:attention}Pi{}'
         },
     },
+    config =  { select = 5 },
+    loc_vars = function(self, info_queue, card) 
+        return { vars = { card.ability.select } }
+    end,
     atlas = 'wtarots',
     pos = {x = 0, y = 0},
+    use = function(self, card, area, copier)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                local sel = G.hand.highlighted[i]
+                play_sound('tarot2')
+                SMODS.change_base(sel, sel.base.suit, 'mvan_pi')
+                sel:juice_up()
+            return true end }))
+        end  
+    end,
+
+    can_use = function(self, card)
+        if #G.hand.highlighted <= card.ability.select then
+            return true
+        end
+    end
 }
