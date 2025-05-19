@@ -579,56 +579,39 @@ SMODS.Joker {
 
     cost = 4,
 
-    calculate = function(self, card, context)
-		-- if context.before and not context.blueprint then
-			-- local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-			-- local trigger = true
-	            -- for k, v in pairs(G.GAME.hands) do
-                    -- if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-						-- trigger = false
-					-- end
-				-- end
-		-- end
-		
-		-- if context.joker_main then
-
-				-- return { xmult = card.ability.xmult }
-			-- end
-		-- end
-    -- end
-	
-if context.before and not context.blueprint then
-	local reset = false
-	local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-	for k, v in pairs(G.GAME.hands) do
-		if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-			reset = true
-		end
-	end
-		if reset then
-			if reset then
-				card.ability.xmult =
-					lenient_bignum(to_big(card.ability.xmult) + card.ability.upgrade)
+			calculate = function(self, card, context)
+		if context.before and not context.blueprint then
+			local reset = false
+			local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
+			for k, v in pairs(G.GAME.hands) do
+				if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
+					reset = true
+				end
+			end
+				if reset then
+					if reset then
+						card.ability.xmult =
+							lenient_bignum(to_big(card.ability.xmult) + card.ability.upgrade)
+							return {
+								card = self,
+								message  = "upgrade",
+							}
+						end
+					else
+						return {
+								card = self,
+								message = "Get weemyd",
+							}
+						--TODO return the proper upgrade text
+						
+					end
+				end
+				if context.joker_main then
 					return {
-						card = self,
-						message  = "upgrade",
+						xmult = card.ability.xmult
 					}
 				end
-			else
-				return {
-						card = self,
-						message = "Get weemyd",
-					}
-				--TODO return the proper upgrade text
-				
-			end
 		end
-		if context.joker_main then
-			return {
-				xmult = card.ability.xmult
-			}
-		end
-	end
 }
 
 SMODS.Joker {
