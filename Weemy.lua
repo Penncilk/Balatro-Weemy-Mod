@@ -1,5 +1,5 @@
+assert(SMODS.load_file('luts.lua'))()
 assert(SMODS.load_file('Animation.lua'))()
-
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
@@ -772,6 +772,55 @@ SMODS.Joker {
 		end
 	end
 }
+
+
+
+SMODS.Joker {
+
+	key = 'gift_clover',
+
+	loc_txt = {
+		name = 'Clover Gifts',
+		text = {
+			"Each {C:green}'Clover'{} joker",
+			"gives {X:mult,C:white}x#1#{} mult"
+			}
+	},
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 3,
+
+	atlas = 'KRis',
+
+	pos = { x = 2, y = 1 },
+
+	cost = 3,
+	
+	config = { xmult = 2 },
+	
+	loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.xmult } }
+    end,
+
+	
+	calculate = function(self, card, context)
+		if context.other_joker then
+			local clovers = Clover_Jokers
+			for _, i in pairs(clovers) do
+				-- Checks if each joker is a Clover Joker
+				if context.other_joker.config.center_key == ("j_mvan_"..i) then
+					return {
+						xmult = card.ability.xmult
+					}
+				end
+			end
+		end
+	end
+}
+	
+
 
 
 -- TODO:
