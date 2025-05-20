@@ -510,6 +510,8 @@ SMODS.Joker {
 	-- end
 }
 
+
+
 SMODS.Joker {
 
 	key = 'm_horror',
@@ -517,10 +519,19 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Horror^3',
 		text = {
-			"if hand has {C:attention}4{} or less cards",
-			"all played card become {C:edition}negative{}"
+			"if hand has {C:attention}3{} or less cards",
+			"all played card become {C:edition}negative{}",
+			"{C:attention}Self Destructs{} after #1# rounds"
 			}
 	},
+
+	config = {
+		counter = 6
+	},
+
+	loc_vars = function(self, info_queue, card)  
+		return { vars = { card.ability.counter } }
+	end,
 
 	blueprint_compat = false,
 	perishable_compat = true,
@@ -535,11 +546,44 @@ SMODS.Joker {
 	cost = 4,
 
 	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play and #context.full_hand <= 4 then
+		if (context.individual and context.cardarea == G.play and #context.full_hand <= 3) then
 			for k, v in ipairs(context.scoring_hand) do
-						v:set_edition({negative = true}, true)
-					end
+				v:set_edition({negative = true}, true)
+			end
 		end
+
+		if context.after then
+			card:juice_up()
+			card.ability.counter = card.ability.counter - 1
+			if card.ability.counter == 1 then
+				return {message = card.ability.counter.." Day Left..."}
+			elseif card.ability.counter == 0 then
+				local fscreen, _ = love.window.getFullscreen()
+				if (not G.GAME.pool_flags.mvan_horror3die) and fscreen then
+					return {message = "Null Joined the game"}
+				else
+					return {message = "..."}
+				end
+			else
+				return {message = card.ability.counter.." Days Left..."}
+			end
+		end
+
+		if card.ability.counter == 0 then
+			-- The funny thing
+			local fscreen, _ = love.window.getFullscreen()
+			if (not G.GAME.pool_flags.mvan_horror3die) and (not fscreen) then
+				love.window.showMessageBox( "Just so you know...", "Null Joined the game", {"Alright...?"}, "info", false )
+				print("Null Joined the game")
+				G.GAME.pool_flags.mvan_horror3die = true
+			end
+			if card.ability.eternal then
+				card.debuff = true
+			else
+				card:start_dissolve({G.C.RED}, nil, 1.6)
+			end
+		end
+		
 	end
 }
 
@@ -754,6 +798,53 @@ SMODS.Joker {
 }
 
 
+SMODS.Joker {
+	key = 'null',
+	loc_txt = {
+		name = 'Null',
+		text = {
+			"Retrigger negative cards {C:attention}#1#{} times"
+			}
+	},
+	config =  { repetitions = 1 },
+	loc_vars = function(self, info_queue, card)  
+	return { vars = { card.ability.repetitions } }
+	end,
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 2,
+
+	atlas = 'KRis',
+
+	pos = { x = 3, y = 1 },
+
+	cost = 6,
+	
+	
+	calculate = function(self, card, context)
+		local possible_messages = {
+					'wuh??',
+					'how???',
+					'what?',
+					'who?',
+					'when??????????'
+				}
+		if context.repetition and context.cardarea == G.play then
+			if context.other_card.edition ~= nil then
+				if context.other_card.edition.type == "negative" then
+					return {
+							repetitions = card.ability.repetitions,
+							card = context.other_card,
+
+							message = possible_messages[math.random(1, 5)]
+
+					}
+				end
+			end
+		end
+	end
+	}
 
 SMODS.Joker {
 
@@ -797,9 +888,16 @@ SMODS.Joker {
 				end
 			end
 		end
+	end,
+
+	in_pool = function(self, args)
+		if not G.GAME.pool_flags.mvan_horror3die then
+			return false
+		end
+		return true
 	end
+
 }
-	
 
 
 
