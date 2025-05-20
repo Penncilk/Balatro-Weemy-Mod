@@ -885,8 +885,12 @@ SMODS.Joker {
 				end
 			end
 		end
+	end,
+
+	in_pool = function(self, args)
+		return G.GAME.pool_flags.weem_horror3die
 	end
-	}
+}
 
 SMODS.Joker {
 
@@ -932,12 +936,7 @@ SMODS.Joker {
 		end
 	end,
 
-	in_pool = function(self, args)
-		if not G.GAME.pool_flags.weem_horror3die then
-			return false
-		end
-		return true
-	end
+
 
 }
 
