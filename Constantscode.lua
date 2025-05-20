@@ -150,5 +150,10 @@ SMODS.Consumable {
         if #G.hand.highlighted <= card.ability.select then
             return true
         end
+    end,
+
+    in_pool = function(self, args)
+        allow_duplicates = true
     end
+
 }
