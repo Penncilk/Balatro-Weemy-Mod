@@ -121,9 +121,7 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
         local _card
         local _tarot = nil
         if (i == 1) then
-            local val = pseudorandom('PiAppear') % 2
-            val = math.floor(val + 0.5)
-            if (val % 2 == 0) then
+            if (pseudorandom('PiAppear') < (1/3)) then
                 _tarot = "c_weem_pitarot"
                 _card = {
                     set = "Tarot",
