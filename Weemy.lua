@@ -816,6 +816,64 @@ SMODS.Joker {
 }
 
 
+
+SMODS.Joker {
+	key = 'null',
+	loc_txt = {
+		name = 'Null',
+		text = {
+			"Retrigger negative cards {C:attention}#1#{} times"
+			}
+	},
+	config =  { repetitions = 1 },
+	loc_vars = function(self, info_queue, card)  
+	return { vars = { card.ability.repetitions } }
+	end,
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 2,
+
+	atlas = 'KRis',
+
+	pos = { x = 3, y = 1 },
+
+	cost = 6,
+	
+	
+	calculate = function(self, card, context)
+		local possible_messages = {
+					'wuh??',
+					'how???',
+					'what?',
+					'who?',
+					'when??????????'
+				}
+		if context.repetition and context.cardarea == G.play then
+			if context.other_card.edition ~= nil then
+				if context.other_card.edition.type == "negative" then
+					return {
+							repetitions = card.ability.repetitions,
+							card = context.other_card,
+
+							message = possible_messages[math.random(1, 5)]
+					}
+				end
+			end
+		end
+	end,
+
+	in_pool = function(self, args)
+		if not G.GAME.pool_flags.mvan_horror3die then
+			return false
+		end
+		return true
+	end
+
+}
+
+
+
 -- TODO:
 -- Have people proofread, make sure my overly long way of writing is actually legible or cut down to make sure it's legible.
 
