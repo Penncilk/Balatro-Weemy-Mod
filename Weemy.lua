@@ -559,7 +559,7 @@ SMODS.Joker {
 				return {message = card.ability.counter.." Day Left..."}
 			elseif card.ability.counter == 0 then
 				local fscreen, _ = love.window.getFullscreen()
-				if (not G.GAME.pool_flags.mvan_horror3die) and fscreen then
+				if (not G.GAME.pool_flags.weem_horror3die) and fscreen then
 					return {message = "Null Joined the game"}
 				else
 					return {message = "..."}
@@ -572,10 +572,10 @@ SMODS.Joker {
 		if card.ability.counter == 0 then
 			-- The funny thing
 			local fscreen, _ = love.window.getFullscreen()
-			if (not G.GAME.pool_flags.mvan_horror3die) and (not fscreen) then
+			if (not G.GAME.pool_flags.weem_horror3die) and (not fscreen) then
 				love.window.showMessageBox( "Just so you know...", "Null Joined the game", {"Alright...?"}, "info", false )
 				print("Null Joined the game")
-				G.GAME.pool_flags.mvan_horror3die = true
+				G.GAME.pool_flags.weem_horror3die = true
 			end
 			if card.ability.eternal then
 				card.debuff = true
@@ -807,7 +807,7 @@ SMODS.Joker {
 	calculate = function(self, card, context)
 		-- Checks at the start of blind
 		if context.setting_blind then
-			play_sound('mvan_slash')
+			play_sound('weem_slash')
 			giftani(card, 2)
 			-- Finds the location of where YOU is
 			local location = nil
@@ -820,12 +820,12 @@ SMODS.Joker {
 				-- Checking for index out of bounds
 				if location > 1 then
 					-- If the ajacent joker is another THE gift, don't fw it
-					if (G.jokers.cards[location-1].config.center_key ~= "j_mvan_thegift" and not G.jokers.cards[location-1].ability.eternal) then
+					if (G.jokers.cards[location-1].config.center_key ~= "j_weem_thegift" and not G.jokers.cards[location-1].ability.eternal) then
 						G.jokers.cards[location-1]:start_dissolve({G.C.RED}, nil, 1.6)
 					end
 				end
 				if location < #G.jokers.cards then
-					if (G.jokers.cards[location+1].config.center_key ~= "j_mvan_thegift" and not G.jokers.cards[location+1].ability.eternal) then
+					if (G.jokers.cards[location+1].config.center_key ~= "j_weem_thegift" and not G.jokers.cards[location+1].ability.eternal) then
 					G.jokers.cards[location+1]:start_dissolve({G.C.RED}, nil, 1.6)
 					end
 				end
@@ -927,7 +927,7 @@ SMODS.Joker {
 			local clovers = Clover_Jokers
 			for _, i in pairs(clovers) do
 				-- Checks if each joker is a Clover Joker
-				if context.other_joker.config.center_key == ("j_mvan_"..i) then
+				if context.other_joker.config.center_key == ("j_weem_"..i) then
 					return {
 						xmult = card.ability.xmult
 					}
@@ -937,7 +937,7 @@ SMODS.Joker {
 	end,
 
 	in_pool = function(self, args)
-		if not G.GAME.pool_flags.mvan_horror3die then
+		if not G.GAME.pool_flags.weem_horror3die then
 			return false
 		end
 		return true

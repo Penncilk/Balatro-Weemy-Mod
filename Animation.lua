@@ -11,7 +11,7 @@ function Game:update(dt)
         Gift_animate:f(Gift_animate["frame"] + 1)
     end
     if thegiftobj == nil then
-        thegiftobj = G.P_CENTERS.j_mvan_thegift
+        thegiftobj = G.P_CENTERS.j_weem_thegift
     end
     thegiftobj.pos.x = Gift_animate["frame"] 
 end

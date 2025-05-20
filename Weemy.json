@@ -3,7 +3,7 @@
     "name": "Weemy",
     "author": ["Kris and Sine"],
     "description": "A mod about my friends :3",
-    "prefix": "mvan",
+    "prefix": "weem",
     "main_file": "Weemy.lua",
     "badge_colour": "c7638f",
     "dependencies": [

@@ -83,7 +83,7 @@ SMODS.Rank {
 
     shorthand = 'Pi',
 
-    next = { "mvan_tau" },
+    next = { "weem_tau" },
     strength_effect = {fixed = 1},
 
     suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
@@ -140,7 +140,7 @@ SMODS.Consumable {
             G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
                 local sel = G.hand.highlighted[i]
                 play_sound('tarot2')
-                SMODS.change_base(sel, sel.base.suit, 'mvan_pi')
+                SMODS.change_base(sel, sel.base.suit, 'weem_pi')
                 sel:juice_up()
             return true end }))
         end  
