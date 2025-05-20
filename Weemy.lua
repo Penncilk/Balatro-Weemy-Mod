@@ -518,8 +518,8 @@ SMODS.Joker {
 		name = 'Horror^3',
 		text = {
 			"if hand has {C:attention}3{} or less cards",
-			"all played card become {C:edition}negative{}",
-			"{C:attention}Self Destructs{} after #1# rounds"
+			"all played cards become {C:edition}negative{}",
+			"{C:attention}Self Destructs{} after #1# hands"
 			}
 	},
 
