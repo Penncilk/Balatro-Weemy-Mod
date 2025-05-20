@@ -1,5 +1,3 @@
-
---Creates an atlas for cards to use
 SMODS.Atlas {
 	-- Key for code to find it with
 	key = "KRis",
@@ -10,7 +8,6 @@ SMODS.Atlas {
 	-- Height of each sprite in 1x size
 	py = 95
 }
-
 
 SMODS.Joker {
 	-- How the code refers to the joker.
@@ -360,7 +357,7 @@ SMODS.Joker {
 		name = 'Messy art',
 		text = {
 			"If hand contains a {C:attention}Wild card{}",
-			"get an Enhancement on every card",
+			"get an Edition on every card",
 			"lose {C:attention}Wild card{} Enhancement on cards"
 			}
 	},
@@ -649,6 +646,45 @@ SMODS.Joker {
 		end
 	end
 }
+
+SMODS.Joker {
+	key = 'null',
+	loc_txt = {
+		name = 'Null',
+		text = {
+			"Retrigger negative cards {C:attention}#1#{} times"
+			}
+	},
+	config =  { repetitions = 1 },
+	loc_vars = function(self, info_queue, card)  
+	return { vars = { card.ability.repetitions } }
+	end,
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 2,
+
+	atlas = 'KRis',
+
+	pos = { x = 3, y = 1 },
+
+	cost = 6,
+	
+	
+	calculate = function(self, card, context)
+		if context.repetition and context.cardarea == G.play then
+			if context.other_card.edition == "negative" then
+				return {
+						repetitions = card.ability.repetitions,
+						card = context.other_card,
+
+						message = 'again...'
+				}
+			end
+		end
+	end
+}
+
 
 
 -- TODO:
