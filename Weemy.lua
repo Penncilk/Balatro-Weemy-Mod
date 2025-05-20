@@ -679,23 +679,69 @@ SMODS.Joker {
 	cost = 3,
 
 	calculate = function(self, card, context)
-		if context.before and context.cardarea == G.jokers then
-			for k, v in ipairs(context.scoring_hand) do
-				if v:is_face() then
-					G.E_MANAGER:add_event(Event({
-						func = function()
-							SMODS.change_base(v, v.base.suit, "Queen")
-							v:juice_up()
-							return true
-						end,
-						delay = 0.2
-					})) 
-				end
+		if context.individual and context.cardarea == G.play then
+			if context.other_card:is_face() and (context.other_card:get_id() ~= 12) then
+				SMODS.change_base(context.other_card, context.other_card.base.suit, "Queen")
+				context.other_card:juice_up()
+				return {
+					message = "Transfem"
+				}
 			end
 		end
 	end
 }
 
+SMODS.Joker {
+
+    key = 'a_pipline',
+
+    loc_txt = {
+        name = 'Pipeline',
+        text = {
+            -- "Gain {C:chips}#1#{} chips if hand", 
+			-- "contains at least 1 {C:attention}'queen'{}",
+			-- "and {C:attention}'no'{} other face cards",
+			-- ^ this one was the og idea, changed it because both funny new idea, and this one is hard
+			"Each {C:attention}queen{} gives {C:chips}#1#{}",
+			"all other {C:attention}face cards{} give {C:chips}-#1#{}",
+            }
+    },
+
+    loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.chips } }
+    end,
+
+    config = { chips = 100 },
+
+    blueprint_compat = true,
+    perishable_compat = true,
+    eternal_compat = true,
+    rarity = 1,
+	
+	atlas = 'KRis',
+
+	pos = { x = 4, y = 1 },
+  
+  	cost = 4,
+
+	calculate = function(self, card, context)
+		if context.individual and context.cardarea == G.play then	
+			if context.other_card:get_id() == 12 then
+				return {
+					chips = card.ability.chips,
+					message = ":3c",
+				}
+			end
+			if context.other_card:get_id() == 11 or context.other_card:get_id() == 13 then
+				return {
+					chips = ((-1)*card.ability.chips),
+					message = ":(",
+				}
+			end
+		end
+	end
+}
+ 
 Gift_animate = {
 	frame = 0,
 	animation = 0,
@@ -898,7 +944,6 @@ SMODS.Joker {
 	end
 
 }
-
 
 
 -- TODO:
