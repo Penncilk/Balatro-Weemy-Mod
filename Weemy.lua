@@ -1,6 +1,6 @@
 assert(SMODS.load_file('luts.lua'))()
 assert(SMODS.load_file('Animation.lua'))()
-assert(SMODS.load_file('Picode.lua'))()
+assert(SMODS.load_file('Constantscode.lua'))()
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
