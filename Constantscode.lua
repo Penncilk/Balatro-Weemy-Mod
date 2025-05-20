@@ -116,6 +116,35 @@ SMODS.Rank {
     suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
 }
 
+SMODS.Booster:take_ownership_by_kind('Arcana', {
+    create_card = function(self, card, i)
+        local _card
+        local _tarot = nil
+        if (i == 1) then
+            local val = pseudorandom('PiAppear') % 2
+            val = math.floor(val + 0.5)
+            if (val % 2 == 0) then
+                _tarot = "c_weem_pitarot"
+                _card = {
+                    set = "Tarot",
+                    area = G.pack_cards,
+                    skip_materialize = true,
+                    soulable = true,
+                    key = _tarot,
+                    key_append = "ta1"
+                }
+            else
+                _card = { set = "Tarot", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ta1" }
+            end
+        else
+            _card = { set = "Tarot", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "ta1" }
+        end
+        return _card
+    end,
+    loc_vars = pack_loc_vars,
+})
+
+
 
 SMODS.Consumable {
     key = "pitarot",
