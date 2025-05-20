@@ -1,5 +1,6 @@
+assert(SMODS.load_file('luts.lua'))()
 assert(SMODS.load_file('Animation.lua'))()
-
+assert(SMODS.load_file('Picode.lua'))()
 
 --Creates an atlas for cards to use
 SMODS.Atlas {
@@ -210,7 +211,7 @@ SMODS.Joker {
 		if context.individual and context.cardarea == G.play then
 				-- Checks to see if the id is an ace or face card,
 				-- Otherwise return the id, as it is equal to the card's value
-				local give_amount = context.other_card:get_id()
+				local give_amount = context.other_card.base.nominal
 				local possible_messages = {
 					'Haha yeah!!',
 					'Integer overflow!!',
@@ -221,10 +222,8 @@ SMODS.Joker {
 					'We love luajit',
 					'lua 5.1 lets goooo'
 				}
-				if context.other_card:get_id() == 14 then
-					give_amount = 11
-				elseif (context.other_card:get_id() < 14) and (context.other_card:get_id() > 10) then
-					give_amount = 10
+				if (context.other_card.ability.effect == 'Stone Card') then
+					give_amount = 0
 				end
 				-- Adds bonus chips either from bonus cards or perma_bonus
 				give_amount = give_amount + context.other_card.ability.bonus + context.other_card.ability.perma_bonus
@@ -621,56 +620,39 @@ SMODS.Joker {
 
     cost = 4,
 
-    calculate = function(self, card, context)
-		-- if context.before and not context.blueprint then
-			-- local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-			-- local trigger = true
-	            -- for k, v in pairs(G.GAME.hands) do
-                    -- if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-						-- trigger = false
-					-- end
-				-- end
-		-- end
-		
-		-- if context.joker_main then
-
-				-- return { xmult = card.ability.xmult }
-			-- end
-		-- end
-    -- end
-	
-if context.before and not context.blueprint then
-	local reset = false
-	local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-	for k, v in pairs(G.GAME.hands) do
-		if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-			reset = true
-		end
-	end
-		if reset then
-			if reset then
-				card.ability.xmult =
-					lenient_bignum(to_big(card.ability.xmult) + card.ability.upgrade)
+			calculate = function(self, card, context)
+		if context.before and not context.blueprint then
+			local reset = false
+			local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
+			for k, v in pairs(G.GAME.hands) do
+				if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
+					reset = true
+				end
+			end
+				if reset then
+					if reset then
+						card.ability.xmult =
+							lenient_bignum(to_big(card.ability.xmult) + card.ability.upgrade)
+							return {
+								card = self,
+								message  = "upgrade",
+							}
+						end
+					else
+						return {
+								card = self,
+								message = "Get weemyd",
+							}
+						--TODO return the proper upgrade text
+						
+					end
+				end
+				if context.joker_main then
 					return {
-						card = self,
-						message  = "upgrade",
+						xmult = card.ability.xmult
 					}
 				end
-			else
-				return {
-						card = self,
-						message = "Get weemyd",
-					}
-				--TODO return the proper upgrade text
-				
-			end
 		end
-		if context.joker_main then
-			return {
-				xmult = card.ability.xmult
-			}
-		end
-	end
 }
 
 SMODS.Joker {
@@ -816,7 +798,6 @@ SMODS.Joker {
 }
 
 
-
 SMODS.Joker {
 	key = 'null',
 	loc_txt = {
@@ -857,6 +838,52 @@ SMODS.Joker {
 							card = context.other_card,
 
 							message = possible_messages[math.random(1, 5)]
+
+					}
+				end
+			end
+		end
+	end
+	}
+
+SMODS.Joker {
+
+	key = 'gift_clover',
+
+	loc_txt = {
+		name = 'Clover Gifts',
+		text = {
+			"Each {C:green}'Clover'{} joker",
+			"gives {X:mult,C:white}x#1#{} mult"
+			}
+	},
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 3,
+
+	atlas = 'KRis',
+
+	pos = { x = 2, y = 1 },
+
+	cost = 3,
+	
+	config = { xmult = 2 },
+	
+	loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.xmult } }
+    end,
+
+	
+	calculate = function(self, card, context)
+		if context.other_joker then
+			local clovers = Clover_Jokers
+			for _, i in pairs(clovers) do
+				-- Checks if each joker is a Clover Joker
+				if context.other_joker.config.center_key == ("j_mvan_"..i) then
+					return {
+						xmult = card.ability.xmult
 					}
 				end
 			end
