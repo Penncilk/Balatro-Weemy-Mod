@@ -73,7 +73,7 @@ SMODS.Rank {
     },
 
     in_pool = function(self, args)
-        args.initial_deck = false
+        return false
     end,
 
     
@@ -100,7 +100,7 @@ SMODS.Rank {
     },
 
     in_pool = function(self, args)
-        args.initial_deck = false
+        return false
     end,
 
     
