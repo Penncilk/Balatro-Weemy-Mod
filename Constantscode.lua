@@ -147,41 +147,6 @@ SMODS.Consumable {
 }
 
 SMODS.Consumable {
-    key = "imagtarot",
-    set = 'Tarot',
-    loc_txt = {
-        label = 'Imaginary',
-        name = 'The Lateral',
-        text = { 
-            'Converts {C:attention}#1#{} of your',
-            'cards into {C:attention}Imaginary Cards{}', 
-        },
-    },
-    config =  { select = 2 },
-    loc_vars = function(self, info_queue, card) 
-        return { vars = { card.ability.select } }
-    end,
-    atlas = 'consume',
-    pos = {x = 1, y = 0},
-    use = function(self, card, area, copier)
-        for i=1, #G.hand.highlighted do
-            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-                local sel = G.hand.highlighted[i]
-                play_sound('tarot2')
-                SMODS.change_base(sel, sel.base.suit, 'weem_pi')
-                sel:juice_up()
-            return true end }))
-        end  
-    end,
-
-    can_use = function(self, card)
-        if #G.hand.highlighted <= card.ability.select then
-            return true
-        end
-    end,
-}
-
-SMODS.Consumable {
     key = "espectral",
     set = 'Spectral',
     loc_txt = {
@@ -224,3 +189,63 @@ SMODS.Consumable {
     end
 
 }
+
+-- TODO
+--[[
+SMODS.Consumable {
+    key = "imagtarot",
+    set = 'Tarot',
+    loc_txt = {
+        label = 'Imaginary',
+        name = 'The Lateral',
+        text = { 
+            'Converts {C:attention}#1#{} of your',
+            'cards into {C:attention}Imaginary Cards{}', 
+        },
+    },
+    config =  { select = 2 },
+    loc_vars = function(self, info_queue, card) 
+        return { vars = { card.ability.select } }
+    end,
+    atlas = 'consume',
+    pos = {x = 1, y = 0},
+    use = function(self, card, area, copier)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                local sel = G.hand.highlighted[i]
+                play_sound('tarot2')
+                SMODS.change_base(sel, sel.base.suit, 'weem_pi')
+                sel:juice_up()
+            return true end }))
+        end  
+    end,
+
+    can_use = function(self, card)
+        if #G.hand.highlighted <= card.ability.select then
+            return true
+        end
+    end,
+}
+]]--
+
+--[[
+SMODS.Enhancement {
+    key = "imagcard",
+    loc_txt = {
+        name = "Imaginary Card",
+        description = {
+            "Played card will give mult",
+            "Instead of chips"
+        }
+    },
+    atlas = "enhance",
+    replace_base_card = true,
+    pos = {x = 0, y = 0},
+    calculate = function(self, card, context)
+        local value = card.base.nominal
+        return {
+            mult = card.base.nominal
+        }
+    end,
+}
+]]--
