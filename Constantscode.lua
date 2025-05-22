@@ -1,65 +1,7 @@
 local Pinumber = 3.14
 -- There was a doom reference before
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "wtarots",
-	-- The name of the file, for the code to pull the atlas from
-	path = "Tarots.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
-
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "pirank_lc",
-	-- The name of the file, for the code to pull the atlas from
-	path = "pirank_lc.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
-
-
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "pirank_hc",
-	-- The name of the file, for the code to pull the atlas from
-	path = "pirank_hc.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "taurank_lc",
-	-- The name of the file, for the code to pull the atlas from
-	path = "taurank_lc.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
-
-
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "taurank_hc",
-	-- The name of the file, for the code to pull the atlas from
-	path = "taurank_hc.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
+local Eulersnum = 2.72
+-- It kills me to round this by 2 decimal places
 
 
 SMODS.Rank {
@@ -76,10 +18,8 @@ SMODS.Rank {
         return false
     end,
 
-    
-
-    lc_atlas = 'pirank_lc', 
-    hc_atlas = 'pirank_hc',
+    lc_atlas = 'constsrank_lc', 
+    hc_atlas = 'constsrank_hc',
 
     shorthand = 'Pi',
 
@@ -92,7 +32,7 @@ SMODS.Rank {
 SMODS.Rank {
     key = "tau",
     card_key = "T",
-    pos = {x = 0},
+    pos = {x = 1},
     nominal = Pinumber*2,
     value = 'Tau',
     loc_txt = {
@@ -103,18 +43,42 @@ SMODS.Rank {
         return false
     end,
 
-    
-
-    lc_atlas = 'taurank_lc', 
-    hc_atlas = 'taurank_hc',
+    lc_atlas = 'constsrank_lc', 
+    hc_atlas = 'constsrank_hc',
 
     shorthand = 'Tau',
+
+    next = {"weem_E"},
+    strength_effect = {fixed = 1},
+
+    suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
+}
+
+SMODS.Rank {
+    key = "E",
+    card_key = "E",
+    pos = {x = 2},
+    nominal = Eulersnum,
+    value = "Euler's Number",
+    loc_txt = {
+        name = "Euler's Number",
+    },
+
+    in_pool = function(self, args)
+        return false
+    end,
+
+    lc_atlas = 'constsrank_lc', 
+    hc_atlas = 'constsrank_hc',
+
+    shorthand = 'E',
 
     next = {},
     strength_effect = {ignore = true},
 
     suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
 }
+
 
 SMODS.Booster:take_ownership_by_kind('Arcana', {
     create_card = function(self, card, i)
@@ -141,8 +105,6 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     end,
     loc_vars = pack_loc_vars,
 })
-
-
 
 SMODS.Consumable {
     key = "pitarot",
