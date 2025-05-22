@@ -59,9 +59,9 @@ SMODS.Rank {
     card_key = "E",
     pos = {x = 2},
     nominal = Eulersnum,
-    value = "Euler's Number",
+    value = "E",
     loc_txt = {
-        name = "Euler's Number",
+        name = "Euler's Number"
     },
 
     in_pool = function(self, args)
@@ -78,7 +78,6 @@ SMODS.Rank {
 
     suit_map = { Hearts = 0, Clubs = 1, Diamonds = 2, Spades = 3 }
 }
-
 
 SMODS.Booster:take_ownership_by_kind('Arcana', {
     create_card = function(self, card, i)
@@ -122,7 +121,7 @@ SMODS.Consumable {
     loc_vars = function(self, info_queue, card) 
         return { vars = { card.ability.select } }
     end,
-    atlas = 'wtarots',
+    atlas = 'consume',
     pos = {x = 0, y = 0},
     use = function(self, card, area, copier)
         for i=1, #G.hand.highlighted do
@@ -130,6 +129,85 @@ SMODS.Consumable {
                 local sel = G.hand.highlighted[i]
                 play_sound('tarot2')
                 SMODS.change_base(sel, sel.base.suit, 'weem_pi')
+                sel:juice_up()
+            return true end }))
+        end  
+    end,
+
+    can_use = function(self, card)
+        if #G.hand.highlighted <= card.ability.select then
+            return true
+        end
+    end,
+
+    in_pool = function(self, args)
+        allow_duplicates = true
+    end
+
+}
+
+SMODS.Consumable {
+    key = "imagtarot",
+    set = 'Tarot',
+    loc_txt = {
+        label = 'Imaginary',
+        name = 'The Lateral',
+        text = { 
+            'Converts {C:attention}#1#{} of your',
+            'cards into {C:attention}Imaginary Cards{}', 
+        },
+    },
+    config =  { select = 2 },
+    loc_vars = function(self, info_queue, card) 
+        return { vars = { card.ability.select } }
+    end,
+    atlas = 'consume',
+    pos = {x = 1, y = 0},
+    use = function(self, card, area, copier)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                local sel = G.hand.highlighted[i]
+                play_sound('tarot2')
+                SMODS.change_base(sel, sel.base.suit, 'weem_pi')
+                sel:juice_up()
+            return true end }))
+        end  
+    end,
+
+    can_use = function(self, card)
+        if #G.hand.highlighted <= card.ability.select then
+            return true
+        end
+    end,
+}
+
+SMODS.Consumable {
+    key = "espectral",
+    set = 'Spectral',
+    loc_txt = {
+        label = 'espec',
+        name = "It's E-verywhere!",
+        text = { 
+            'Converts the rank of',
+            'up to {C:attention}#1#{} selected cards', 
+            "to {C:attention}Euler's Number{}",
+            " ",
+            "{C:inactive}It's looks like just a worse two!{}",
+            "{C:inactive}There must be SOME reason to get it...{}"
+        },
+    },
+    config =  { select = 2 },
+    loc_vars = function(self, info_queue, card) 
+        return { vars = { card.ability.select } }
+    end,
+    atlas = 'consume',
+    pos = {x = 2, y = 0},
+    use = function(self, card, area, copier)
+        for i=1, #G.hand.highlighted do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                local sel = G.hand.highlighted[i]
+                play_sound('tarot2')
+                SMODS.change_base(sel, sel.base.suit, 'weem_E')
                 sel:juice_up()
             return true end }))
         end  
