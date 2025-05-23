@@ -10,16 +10,18 @@ local function eulerscode(self, card, context)
     if (context.individual and context.cardarea == G.play and (context.other_card.base.value == "weem_E")) then
         -- times_played
         context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
-        if context.other_card.ability.perma_bonus <= 0 then
-            context.other_card.ability.perma_bonus = 2.72
-        else
-            context.other_card.ability.perma_bonus = round(context.other_card.ability.perma_bonus * (2.72), 2)
+        if context.other_card.base.times_played <= 20 then
+            if context.other_card.ability.perma_bonus <= 0 then
+                context.other_card.ability.perma_bonus = 2.72
+            else
+                context.other_card.ability.perma_bonus = round(context.other_card.ability.perma_bonus * (2.72), 2)
+            end
+            return {
+                extra = { message = localize('k_upgrade_ex'), colour = G.C.CHIPS },
+                card = card
+            }
         end
-        
-        return {
-            extra = { message = localize('k_upgrade_ex'), colour = G.C.CHIPS },
-            card = card
-        }
+
     end
 end
 

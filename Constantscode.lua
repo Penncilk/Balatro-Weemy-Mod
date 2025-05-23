@@ -196,6 +196,38 @@ SMODS.Back {
     loc_txt = {
         name = "Mathematical Deck",
         text = {
+            "All {C:attention}Even Ranks{} are",
+            "replaced with {C:attention}Pi{}"
+        }
+    },
+    atlas = 'backs', 
+    pos = { x = 0, y = 0 },
+
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                for _, card in ipairs(G.playing_cards) do
+                    local values = {'2', '4', '6', '8', '10'}
+                    for _, i in ipairs(values) do
+                        if card.base.value == i then
+                            assert(SMODS.change_base(card, nil, self.config.pirank))
+                        end
+                    end
+                end
+                return true
+            end
+        }))
+    end
+}
+
+-- The Original
+--[[
+SMODS.Back {
+    key = "mathback",
+    config = {pirank = 'weem_pi', taurank = 'weem_tau', erank = 'weem_E'},
+    loc_txt = {
+        name = "Mathematical Deck",
+        text = {
             "All {C:attention}6's{} are replaced with {C:attention}Tau{}",
             "All {C:attention}3's{} are replaced with {C:attention}Pi{}",
             "All {C:attention}2's{} are replaced",
@@ -225,6 +257,7 @@ SMODS.Back {
         }))
     end
 }
+]]--
 
 -- TODO
 --[[
