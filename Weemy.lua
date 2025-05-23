@@ -1,3 +1,12 @@
+WeemColours = {
+	Kris = function() return create_badge('Kris', G.C.RED, G.C.WHITE, 1.2 ) end,
+	Sine = function() return create_badge('Sine', G.C.YELLOW, G.C.BLACK, 1.2 ) end,
+	Clover = function() return create_badge('Clover', G.C.BLUE, G.C.WHITE, 1.2 ) end,
+	Azzy = function() return create_badge('Azzy', G.C.PURPLE, G.C.WHITE, 1.2 ) end,
+	Ethan = function() return create_badge('Ethan', G.C.BLACK, G.C.WHITE, 1.2 ) end,
+	Jade = function() return create_badge('Jade', G.C.ORANGE, G.C.WHITE, 1.2 ) end
+}
+
 SMODS.Sound {
 	key = "slash",
 	path = {
@@ -26,6 +35,9 @@ SMODS.Joker {
 			"retrigger all played cards"
 			}
 	},
+ 	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Kris()
+ 	end,
 	--[[
 		Config sets all the variables for your card, you want to put all numbers here.
 		This is really useful for scaling numbers, but should be done with static numbers -
@@ -86,6 +98,9 @@ SMODS.Joker {
 			"per card played"
 			}
 	},
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Clover()
+ 	end,
 
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -127,6 +142,9 @@ SMODS.Joker {
 			"if there's {C:attention}no discards{} remaining",
 			}
 	},
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Sine()
+ 	end,
 
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -164,7 +182,9 @@ SMODS.Joker {
 			"as {C:mult}+mult{} and {C:money}$money{}"
 			}
 	},
-
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Sine()
+ 	end,
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
@@ -222,7 +242,9 @@ SMODS.Joker {
 			"played spade cards {C:attention}#3#{} times"
 			}
 	},
-
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Clover()
+ 	end,
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true, 
@@ -267,7 +289,9 @@ SMODS.Joker {
 			"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)"
 			}
 	},
-
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Jade()
+ 	end,
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
@@ -311,7 +335,9 @@ SMODS.Joker {
 			"give {X:blue,C:white}x#1#{} chips",
 			}
 	},
-
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Azzy()
+ 	end,
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
@@ -356,6 +382,9 @@ SMODS.Joker {
 			"lose {C:attention}Wild card{} Enhancement on cards"
 			}
 	},
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Kris()
+ 	end,
 
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -430,7 +459,9 @@ SMODS.Joker {
 			"give {X:mult,C:white}x#1#{} mult",
 			}
 	},
-
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Ethan()
+ 	end,
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
@@ -495,6 +526,9 @@ SMODS.Joker {
 			"{C:attention}Self Destructs{} after #1# hands"
 			}
 	},
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Ethan()
+ 	end,
 
 	config = {
 		counter = 6
@@ -675,6 +709,9 @@ SMODS.Joker {
 			"all other {C:attention}face cards{} give {C:chips}-#1#{}",
             }
     },
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Azzy()
+ 	end,
 
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.chips } }
@@ -821,6 +858,10 @@ SMODS.Joker {
 			"Retrigger negative cards {C:attention}#1#{} times"
 			}
 	},
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Kris()
+		badges[#badges+1] = WeemColours.Ethan()
+ 	end,
 	config =  { repetitions = 1 },
 	loc_vars = function(self, info_queue, card)  
 	return { vars = { card.ability.repetitions } }
@@ -876,6 +917,10 @@ SMODS.Joker {
 			"gives {X:mult,C:white}x#1#{} mult"
 			}
 	},
+	set_badges = function(self, card, badges)
+ 		badges[#badges+1] = WeemColours.Clover()
+ 	end,
+
 
 	blueprint_compat = true,
 	perishable_compat = true,
