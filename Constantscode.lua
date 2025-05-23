@@ -192,12 +192,14 @@ SMODS.Consumable {
 
 SMODS.Back {
     key = "mathback",
-    config = {pirank = 'weem_pi', taurank = 'weem_tau', erank = 'weem_E'},
+    config = {pirank = 'weem_pi', taurank = 'weem_tau'},
     loc_txt = {
         name = "Mathematical Deck",
         text = {
-            "All {C:attention}Even Ranks{} are",
-            "replaced with {C:attention}Pi{}"
+            "{C:attention}2's, 4's, 6's, and 8's{}",
+            "are {C:attention}Pi{} Cards",
+            "{C:attention}10's and Ace's{}",
+            "are {C:attention}Tau{} Cards"
         }
     },
     atlas = 'backs', 
@@ -207,10 +209,16 @@ SMODS.Back {
         G.E_MANAGER:add_event(Event({
             func = function()
                 for _, card in ipairs(G.playing_cards) do
-                    local values = {'2', '4', '6', '8', '10'}
-                    for _, i in ipairs(values) do
+                    local pivalues = {'2', '4', '6', '8'}
+                    local tauvalues = {'10', 'Ace'}
+                    for _, i in ipairs(pivalues) do
                         if card.base.value == i then
                             assert(SMODS.change_base(card, nil, self.config.pirank))
+                        end
+                    end
+                    for _, i in ipairs(tauvalues) do
+                        if card.base.value == i then
+                            assert(SMODS.change_base(card, nil, self.config.taurank))
                         end
                     end
                 end
@@ -219,6 +227,8 @@ SMODS.Back {
         }))
     end
 }
+
+
 
 -- The Original
 --[[
