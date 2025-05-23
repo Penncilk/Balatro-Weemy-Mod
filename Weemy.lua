@@ -1,29 +1,10 @@
+assert(SMODS.load_file('Atlases.lua'))()
 assert(SMODS.load_file('luts.lua'))()
 assert(SMODS.load_file('Animation.lua'))()
 assert(SMODS.load_file('Constantscode.lua'))()
+assert(SMODS.load_file('GameplayChanges.lua'))()
+assert(SMODS.load_file('consumables.lua'))()
 
---Creates an atlas for cards to use
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "KRis",
-	-- The name of the file, for the code to pull the atlas from
-	path = "Jokers.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
-
-SMODS.Atlas {
-	-- Key for code to find it with
-	key = "TheGiftAtlas",
-	-- The name of the file, for the code to pull the atlas from
-	path = "TheGiftAtlas.png",
-	-- Width of each sprite in 1x size
-	px = 71,
-	-- Height of each sprite in 1x size
-	py = 95
-}
 
 SMODS.Sound {
 	key = "slash",
