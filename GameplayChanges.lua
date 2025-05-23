@@ -57,7 +57,6 @@ function Game:start_run(args)
     runhook(self, args)
     print("test")
     local saveTable = args.savetext or nil
-    
     if not saveTable then
         --Put voucher in here
         local cardd = SMODS.create_card({set = 'Voucher', key = 'v_weem_weemtweaks'})
