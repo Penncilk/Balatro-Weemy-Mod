@@ -1,13 +1,9 @@
-local function round(num, numDecimalPlaces)
-  if numDecimalPlaces and numDecimalPlaces>0 then
-    local mult = 10^numDecimalPlaces
-    return math.floor(num * mult + 0.5) / mult
-  end
-  return math.floor(num + 0.5)
-end
+local WeemFix = {}
 
-local function eulerscode(self, card, context)
-    
+-------- WRITE FUNCTIONS HERE --------
+
+-- Allows euler's number to grow exponentially
+function WeemFix.eulerscode(self, card, context)
     if (context.individual and context.cardarea == G.play) then
         print(context.other_card.ability)
         if (context.other_card.base.value == "weem_E") then
@@ -32,6 +28,8 @@ local function eulerscode(self, card, context)
 end
 
 
+-------- VOUCHER CODE HERE --------
+
 SMODS.Voucher {
     key = 'weemtweaks',
     loc_txt = {
@@ -42,10 +40,12 @@ SMODS.Voucher {
     atlas = "weemyfix",
     pos = {x=0, y=0},
     calculate = function(self, card, context)
-        -- Add any changes into here, as a function
-        eulerscode(self, card, context)
+        for _, i in pairs(WeemFix) do
+            i(self, card, context)
+        end
     end
 }
+
 -- Lets you just *add* a voucher
 function Card:redeem_no_pay()
     if self.ability.set == "Voucher" then
@@ -60,16 +60,27 @@ function Card:redeem_no_pay()
     end
 end
 
+-- Hooks into the start run code
 local runhook = Game.start_run
 function Game:start_run(args)
     runhook(self, args)
     print("test")
+    -- Makes sure its a new game, and not a continued one
+    -- BECUASE I DON'T WANNA DEAL WITH THOSE EDGE CASES
     local saveTable = args.savetext or nil
     if not saveTable then
-        --Put voucher in here
         local cardd = SMODS.create_card({set = 'Voucher', key = 'v_weem_weemtweaks'})
         cardd.ability.eternal = true
         cardd:redeem_no_pay()
         cardd:remove()
     end
+end
+
+-- I Wanted to round things ok?
+local function round(num, numDecimalPlaces)
+  if numDecimalPlaces and numDecimalPlaces>0 then
+    local mult = 10^numDecimalPlaces
+    return math.floor(num * mult + 0.5) / mult
+  end
+  return math.floor(num + 0.5)
 end
