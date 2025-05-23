@@ -190,6 +190,42 @@ SMODS.Consumable {
 
 }
 
+SMODS.Back {
+    key = "mathback",
+    config = {pirank = 'weem_pi', taurank = 'weem_tau', erank = 'weem_E'},
+    loc_txt = {
+        name = "Mathematical Deck",
+        text = {
+            "All {C:attention}6's{} are replaced with {C:attention}Tau{}",
+            "All {C:attention}3's{} are replaced with {C:attention}Pi{}",
+            "All {C:attention}2's{} are replaced",
+            "with {C:attention}Euler's Number{}"
+        }
+    },
+    atlas = 'backs', 
+    pos = { x = 0, y = 0 },
+
+    apply = function(self, back)
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                for _, card in ipairs(G.playing_cards) do
+                    if card.base.value == '2' then
+                        assert(SMODS.change_base(card, nil, self.config.erank))
+                    end
+                    if card.base.value == '3' then
+                        assert(SMODS.change_base(card, nil, self.config.pirank))
+                    end
+                    if card.base.value == '6' then
+                        assert(SMODS.change_base(card, nil, self.config.taurank))
+                    end
+                    
+                end
+                return true
+            end
+        }))
+    end
+}
+
 -- TODO
 --[[
 SMODS.Consumable {
