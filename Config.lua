@@ -1,0 +1,7 @@
+assert(SMODS.load_file('Atlases.lua'))()
+assert(SMODS.load_file('luts.lua'))()
+assert(SMODS.load_file('Animation.lua'))()
+assert(SMODS.load_file('Constantscode.lua'))()
+assert(SMODS.load_file('GameplayChanges.lua'))()
+assert(SMODS.load_file('consumables.lua'))()
+assert(SMODS.load_file('Weemy.lua'))()

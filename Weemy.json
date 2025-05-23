@@ -1,10 +1,10 @@
 {
     "id": "KRIS",
     "name": "Weemy",
-    "author": ["Kris and Sine"],
+    "author": ["Kris", "Sine", "Clover"],
     "description": "A mod about my friends :3",
     "prefix": "weem",
-    "main_file": "Weemy.lua",
+    "main_file": "Config.lua",
     "badge_colour": "c7638f",
     "dependencies": [
 	"Talisman (>=2.0.9)",
