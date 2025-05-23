@@ -7,7 +7,7 @@ SMODS.Consumable {
         text = { 
             'Removes an enhancement from',
             'up to {C:attention}#1#{} selected cards', 
-            'Gives back $#2# per card',
+            'Gives back {C:money}$#2#{} per card',
             ' ',
             '{C:inactive}Turns a mathmatical constant into the{}',
             '{C:inactive}integer part of the value{}',
