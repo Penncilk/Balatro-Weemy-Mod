@@ -7,21 +7,27 @@ local function round(num, numDecimalPlaces)
 end
 
 local function eulerscode(self, card, context)
-    if (context.individual and context.cardarea == G.play and (context.other_card.base.value == "weem_E")) then
-        -- times_played
-        context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
-        if context.other_card.base.times_played <= 20 then
-            if context.other_card.ability.perma_bonus <= 0 then
-                context.other_card.ability.perma_bonus = 2.72
-            else
-                context.other_card.ability.perma_bonus = round(context.other_card.ability.perma_bonus * (2.72), 2)
+    
+    if (context.individual and context.cardarea == G.play) then
+        print(context.other_card.ability)
+        if (context.other_card.base.value == "weem_E") then
+            -- Built in counter for Euler's Usage
+            context.other_card.ability.eulered = context.other_card.ability.eulered or 0
+            context.other_card.ability.perma_bonus = context.other_card.ability.perma_bonus or 0
+            -- Limiting the max values
+            if context.other_card.ability.eulered <= 24 then
+                if context.other_card.ability.perma_bonus <= 0 then
+                    context.other_card.ability.perma_bonus = 2.72
+                else
+                    context.other_card.ability.perma_bonus = round(context.other_card.ability.perma_bonus * (2.72), 2)
+                end
+                context.other_card.ability.eulered = context.other_card.ability.eulered + 1
+                return {
+                    extra = { message = localize('k_upgrade_ex'), colour = G.C.CHIPS },
+                    card = card
+                }
             end
-            return {
-                extra = { message = localize('k_upgrade_ex'), colour = G.C.CHIPS },
-                card = card
-            }
         end
-
     end
 end
 
