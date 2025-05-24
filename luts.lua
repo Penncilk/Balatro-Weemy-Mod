@@ -2,7 +2,9 @@
 
 Clover_Jokers = {
 	'siffrin',
-	'Clover',
+	'Clover1',
+	'Clover2',
+	'Clover3',
 	'gift_clover',
 }
 

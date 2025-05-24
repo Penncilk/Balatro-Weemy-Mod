@@ -5,7 +5,6 @@ SMODS.Sound {
 	}
 }
 
-
 SMODS.Joker {
 	-- How the code refers to the joker.
 	key = 'skris',
@@ -77,49 +76,7 @@ SMODS.Joker {
 	end
 }
 
-SMODS.Joker {
 
-	key = 'Clover',
-
-	loc_txt = {
-		name = '3 Leaf Clover',
-		text = {
-			"{C:green}#1# in #2#{} chance to",
-			"to give {X:mult,C:white}x#3#{} {C:mult}mult{}",
-			"per card played"
-			}
-	},
-	set_badges = function(self, card, badges)
- 		badges[#badges+1] = WeemColours.Clover()
- 	end,
-
-	blueprint_compat = true,
-	perishable_compat = true,
-	eternal_compat = true,
-	config = { extra = { xmult = 2, odds = 4 } },
-	rarity = 3,
-
-	atlas = 'KRis',
-
-	pos = { x = 1, y = 0 },
-
-	cost = 8,
-
-	loc_vars = function(self, info_queue, card)
-		return { vars = { (G.GAME.probabilities.normal), card.ability.extra.odds, card.ability.extra.xmult  } }
-	end,
-	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-			if pseudorandom('Clover') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				return {
-				Xmult = card.ability.extra.xmult,
-				message = 'Lucky!'
-				}
-			end
-
-		end
-	end
-}
 
 SMODS.Joker {
 
@@ -162,64 +119,6 @@ SMODS.Joker {
 	end
 }
 
-SMODS.Joker {
-
-	key = 'Sine',
-
-	loc_txt = {
-		name = 'Coding Oversight',
-		text = {
-			"Cards give their total chips value",
-			"as {C:mult}+mult{} and {C:money}$money{}"
-			}
-	},
-	set_badges = function(self, card, badges)
- 		badges[#badges+1] = WeemColours.Sine()
- 	end,
-	blueprint_compat = true,
-	perishable_compat = true,
-	eternal_compat = true,
-	rarity = 3,
-
-
-	atlas = 'KRis',
-
-	pos = { x = 3, y = 0 },
-
-	cost = 10,
-
-	loc_vars = function(self, info_queue, card)  
-	return { vars = { card.ability.money, card.ability.mult } }
-	end,	
-	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play then
-				-- Checks to see if the id is an ace or face card,
-				-- Otherwise return the id, as it is equal to the card's value
-				local give_amount = context.other_card.base.nominal
-				local possible_messages = {
-					'Haha yeah!!',
-					'Integer overflow!!',
-					'Memory Leak??',
-					'How has this not crashed...',
-					'Hell yeah, Exploitation',
-					'Arbitrary Code Execution',
-					'We love luajit',
-					'lua 5.1 lets goooo'
-				}
-				if (context.other_card.ability.effect == 'Stone Card') then
-					give_amount = 0
-				end
-				-- Adds bonus chips either from bonus cards or perma_bonus
-				give_amount = give_amount + context.other_card.ability.bonus + context.other_card.ability.perma_bonus
-			return {
-				mult = give_amount,
-				dollars = give_amount,
-
-				message = possible_messages[math.random(1, 8)]
-			}
-		end
-	end
-}
 
 
 SMODS.Joker {
@@ -358,82 +257,6 @@ SMODS.Joker {
 				}
 			end
 		end
-	end
-}
-
-SMODS.Joker {
-
-	key = 'Kris',
-
-	loc_txt = {
-		name = 'Messy art',
-		text = {
-			"If hand contains a {C:attention}Wild card{}",
-			"get an Enhancement on every card",
-			"lose {C:attention}Wild card{} Enhancement on cards"
-			}
-	},
-	set_badges = function(self, card, badges)
- 		badges[#badges+1] = WeemColours.Kris()
- 	end,
-
-	blueprint_compat = true,
-	perishable_compat = true,
-	eternal_compat = true,
-	rarity = 3,
-
-	atlas = 'KRis',
-
-	pos = { x = 7, y = 0 },
-
-	cost = 8,
-
-	loc_vars = function(self, info_queue, card)  
-	return { vars = { card.ability.chips } }
-	end,	
-	calculate = function(self, card, context)
-		if context.individual and context.cardarea == G.play and SMODS.has_enhancement(context.other_card, 'm_wild') then
-			local card_settings = {
-				Original = false,
-				-- Destroy has its set of bugs, but works in theory
-				Destroy = false
-			}
-			
-			if card_settings.Original then -- The Original Idea (The slightly more balanced one)
-				if SMODS.has_enhancement(context.other_card, 'm_wild') and (not context.other_card.edition) then 
-					local edition = poll_edition('aura', nil, true, true)
-					context.other_card:set_edition(edition, true)
-				end
-				
-			else -- The Alternative Version (The one designed around the bug)
-				 -- Removes Wild enhancement from all cards
-				if SMODS.has_enhancement(context.other_card, 'm_wild') then 
-					
-					if card_settings.Destroy then
-						-- Killin' a card ain't no big deal!
-						-- Just put a gun to its head
-						-- POW...
-
-						-- [Insert FNF song "IRON LUNG" here]
-						context.other_card:start_dissolve({G.C.RED}, nil, 1.6)
-					else
-						context.other_card:set_ability(G.P_CENTERS.c_base, nil, true)
-					end
-
-					
-				end
-				
-				for k, v in ipairs(context.scoring_hand) do	
-						local edition = poll_edition('aura', nil, true, true)
-						-- If the card has an edition it will not effect, 
-						-- this will prevent overlapping 
-						if not v.edition then
-							v:set_edition(edition, true)
-						end
-					end
-				end
-        end
-			
 	end
 }
 
