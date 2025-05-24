@@ -5,7 +5,6 @@ local WeemFix = {}
 -- Allows euler's number to grow exponentially
 function WeemFix.eulerscode(self, card, context)
     if (context.individual and context.cardarea == G.play) then
-        print(context.other_card.ability)
         if (context.other_card.base.value == "weem_E") then
             -- Built in counter for Euler's Usage
             context.other_card.ability.eulered = context.other_card.ability.eulered or 0
@@ -64,7 +63,6 @@ end
 local runhook = Game.start_run
 function Game:start_run(args)
     runhook(self, args)
-    print("test")
     -- Makes sure its a new game, and not a continued one
     -- BECUASE I DON'T WANNA DEAL WITH THOSE EDGE CASES
     local saveTable = args.savetext or nil
