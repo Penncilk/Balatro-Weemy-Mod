@@ -1,3 +1,5 @@
+
+
 ---- Sine ----
 
 SMODS.Joker {
@@ -13,6 +15,8 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Sine()
+        badges[#badges+1] = UpgradeColours.Upgrade()
+        badges[#badges+1] = UpgradeColours.Tier1()
  	end,
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -22,7 +26,7 @@ SMODS.Joker {
 
 	atlas = 'KRis',
 
-	pos = { x = 3, y = 0 },
+	pos = { x = 5, y = 1 },
 
 	cost = 4,
 
@@ -31,20 +35,14 @@ SMODS.Joker {
 	end,	
 	calculate = function(self, card, context)
 		if context.joker_main then
-                --[[
-				-- Checks to see if the id is an ace or face card,
-				-- Otherwise return the id, as it is equal to the card's value
-				local give_amount = context.other_card.base.nominal
-				if (context.other_card.ability.effect == 'Stone Card') then
-					give_amount = 0
-				end
-				-- Adds bonus chips either from bonus cards or perma_bonus
-				give_amount = give_amount + context.other_card.ability.bonus + context.other_card.ability.perma_bonus
-                ]]--
-
+            local score = 0
+            for _, i in ipairs(context.scoring_hand) do
+                score = score + i.base.nominal
+            end
+            score = score / #context.scoring_hand
 
 			return {
-				mult = 20,
+				mult = score,
 				message = "Sorry!!"
 			}
 		end
@@ -65,6 +63,8 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Sine()
+        badges[#badges+1] = UpgradeColours.Upgrade()
+        badges[#badges+1] = UpgradeColours.Tier2()
  	end,
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -125,6 +125,7 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Sine()
+        badges[#badges+1] = UpgradeColours.Tier3()
  	end,
 	blueprint_compat = true,
 	perishable_compat = true,
@@ -177,6 +178,8 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Kris()
+        badges[#badges+1] = UpgradeColours.Upgrade()
+        badges[#badges+1] = UpgradeColours.Tier2()
  	end,
 
 	blueprint_compat = true,
@@ -256,12 +259,14 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Clover()
+        badges[#badges+1] = UpgradeColours.Upgrade()
+        badges[#badges+1] = UpgradeColours.Tier1()
  	end,
 
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
-	config = { extra = { mult = 10, odds = 4 } },
+	config = { extra = { mult = 10, odds = 2 } },
 	rarity = 1,
 
 	atlas = 'KRis',
@@ -301,6 +306,8 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Clover()
+        badges[#badges+1] = UpgradeColours.Upgrade()
+        badges[#badges+1] = UpgradeColours.Tier2()
  	end,
 
 	blueprint_compat = true,
@@ -347,6 +354,7 @@ SMODS.Joker {
 	},
 	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Clover()
+        badges[#badges+1] = UpgradeColours.Tier3()
  	end,
 
 	blueprint_compat = true,
@@ -366,15 +374,32 @@ SMODS.Joker {
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
+            local f1, f2 = false, false
             if pseudorandom('Clover32') < G.GAME.probabilities.normal / card.ability.extra.odds then
                 card.ability.extra.xmult = card.ability.extra.xmult * card.ability.extra.xinc
+                f1 = true
             end
 			if pseudorandom('Clover31') < G.GAME.probabilities.normal / card.ability.extra.odds then
-				return {
-				Xmult = card.ability.extra.xmult,
-				message = 'Luckiest!'
-				}
+				f2 = true
 			end
+            -- Truth table, gotta love it
+            if (f1 == true) and (f2 == true) then
+                return {
+                    Xmult = card.ability.extra.xmult,
+                    message = 'Luckiest + Upgrade!'
+			    }
+            elseif (f1 == true) and (f2 == false) then
+                return {
+                    message = 'Upgrade!'
+			    }
+            elseif (f1 == false) and (f2 == true) then
+                return {
+                    Xmult = card.ability.extra.xmult,
+                    message = 'Luckiest!'
+			    }
+            end
+
+            
 		end
 	end
 }
