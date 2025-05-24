@@ -2,6 +2,15 @@ local WeemFix = {}
 
 -------- WRITE FUNCTIONS HERE --------
 
+-- I Wanted to round things ok?
+local function round(num, numDecimalPlaces)
+  if numDecimalPlaces and numDecimalPlaces>0 then
+    local mult = 10^numDecimalPlaces
+    return math.floor(num * mult + 0.5) / mult
+  end
+  return math.floor(num + 0.5)
+end
+
 -- Allows euler's number to grow exponentially
 function WeemFix.eulerscode(self, card, context)
     if (context.individual and context.cardarea == G.play) then
@@ -78,11 +87,3 @@ function Game:start_run(args)
     end
 end
 
--- I Wanted to round things ok?
-local function round(num, numDecimalPlaces)
-  if numDecimalPlaces and numDecimalPlaces>0 then
-    local mult = 10^numDecimalPlaces
-    return math.floor(num * mult + 0.5) / mult
-  end
-  return math.floor(num + 0.5)
-end
