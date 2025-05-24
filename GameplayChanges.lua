@@ -51,7 +51,6 @@ function Card:redeem_no_pay()
         if not self.config.center.discovered then
             discover_card(self.config.center)
         end
-        self.states.hover.can = false
         G.GAME.used_vouchers[self.config.center_key] = true
         set_voucher_usage(self)
         check_for_unlock({type = 'run_redeem'})
@@ -66,11 +65,16 @@ function Game:start_run(args)
     -- Makes sure its a new game, and not a continued one
     -- BECUASE I DON'T WANNA DEAL WITH THOSE EDGE CASES
     local saveTable = args.savetext or nil
+    G.GAME.addedWeemy = G.GAME.addedWeemy or false
     if not saveTable then
-        local cardd = SMODS.create_card({set = 'Voucher', key = 'v_weem_weemtweaks'})
-        cardd.ability.eternal = true
-        cardd:redeem_no_pay()
-        cardd:remove()
+        if G.GAME.addedWeemy == false then
+            local card = SMODS.create_card({set = 'Voucher', key = 'v_weem_weemtweaks'})
+            card.ability.eternal = true
+            card:redeem_no_pay()
+            card:remove()
+            G.GAME.addedWeemy = true
+        end
+        
     end
 end
 
