@@ -26,6 +26,14 @@ function WeemFix.eulerscode(self, card, context)
     end
 end
 
+function WeemFix.motivationcode(self, card, context)
+    if context.repetition and context.cardarea == G.play then
+        if (context.other_card.base.suit == "Hearts" or SMODS.has_any_suit(context.other_card)) then
+            G.GAME.cur_motivation = G.GAME.cur_motivation + 0.2
+        end
+	end
+end
+
 
 -------- VOUCHER CODE HERE --------
 
@@ -66,8 +74,10 @@ function Game:start_run(args)
     -- BECUASE I DON'T WANNA DEAL WITH THOSE EDGE CASES
     local saveTable = args.savetext or nil
     G.GAME.addedWeemy = G.GAME.addedWeemy or false
+    G.GAME.cur_motivation = G.GAME.cur_motivation or 0
     if not saveTable then
         if G.GAME.addedWeemy == false then
+            G.GAME.cur_motivation = 0
             local card = SMODS.create_card({set = 'Voucher', key = 'v_weem_weemtweaks'})
             card.ability.eternal = true
             card:redeem_no_pay()
@@ -105,7 +115,7 @@ function create_UIBox_HUD()
             }},
             {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.R, config={align = "cm", r = 0.1, minw = 0.8, colour = temp_col2}, nodes={
-                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME.current_round, ref_value = 'discards_left'}}, font = G.LANGUAGES['en-us'].font, colours = {G.C.ORANGE},shadow = true, rotate = true, scale = 2*scale}),id = 'discard_UI_count'}},
+                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'cur_motivation'}}, font = G.LANGUAGES['en-us'].font, colours = {G.C.ORANGE},shadow = true, rotate = true, scale = 2*scale}),id = 'discard_UI_count'}},
             }}
             }},
         }},
