@@ -86,3 +86,44 @@ local function round(num, numDecimalPlaces)
   end
   return math.floor(num + 0.5)
 end
+
+-- UI HOOKS
+
+local old_cuibhud = create_UIBox_HUD
+function create_UIBox_HUD()
+
+    local scale = 0.4
+    local spacing = 0.13
+    local temp_col = G.C.DYN_UI.BOSS_MAIN
+    local temp_col2 = G.C.DYN_UI.BOSS_DARK
+    
+    local newui = {
+        -- Motivation UI
+        {n=G.UIT.C, config={align = "cm", padding = 0.05, minw = 1.1, colour = temp_col, emboss = 0.05, r = 0.1}, nodes={
+            {n=G.UIT.R, config={align = "cm", minh = 0.33, maxw = 0.9}, nodes={
+            {n=G.UIT.T, config={text = 'Motiv', scale = 0.85*scale, colour = G.C.UI.TEXT_LIGHT, shadow = true}},
+            }},
+            {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.R, config={align = "cm", r = 0.1, minw = 0.8, colour = temp_col2}, nodes={
+                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME.current_round, ref_value = 'discards_left'}}, font = G.LANGUAGES['en-us'].font, colours = {G.C.ORANGE},shadow = true, rotate = true, scale = 2*scale}),id = 'discard_UI_count'}},
+            }}
+            }},
+        }},
+        -- Spacing
+        {n=G.UIT.C, config={minw = spacing},nodes={}},
+
+        -- Updated Dollars UI
+        {n=G.UIT.C, config={align = "cm", padding = 0.05, minw = 1.75 + spacing, minh = 1.15, colour = temp_col, emboss = 0.05, r = 0.1}, nodes={
+            {n=G.UIT.R, config={align = "cm"}, nodes={
+            {n=G.UIT.C, config={align = "cm", r = 0.1, minw = 1.50+spacing, minh = 1, colour = temp_col2}, nodes={
+                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'dollars', prefix = localize('$')}}, maxw = 1.35, colours = {G.C.MONEY}, font = G.LANGUAGES['en-us'].font, shadow = true,spacing = 2, bump = true, scale = 2.2*scale}), id = 'dollar_text_UI'}}
+            }},
+            }},
+        }},
+    }
+
+    local curui = old_cuibhud()
+    curui.nodes[1].nodes[1].nodes[#curui.nodes[1].nodes[1].nodes].nodes[2].nodes[3].nodes = newui
+
+    return curui
+end
