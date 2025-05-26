@@ -460,7 +460,7 @@ SMODS.Consumable {
             'To its next form'
         },
     },
-    config =  { select = 2, money = 5 },
+    config =  { select = 2, money = 7 },
     loc_vars = function(self, info_queue, card) 
         return { vars = { card.ability.select, card.ability.money } }
     end,
