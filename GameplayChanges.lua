@@ -26,10 +26,24 @@ function WeemFix.eulerscode(self, card, context)
     end
 end
 
+SMODS.Sound {
+	key = "heal",
+	path = {
+		['default'] = "e_motiv_heal.wav",
+	}
+}
+
 function WeemFix.motivationcode(self, card, context)
-    if context.repetition and context.cardarea == G.play then
+    if context.individual and context.cardarea == G.play then
         if (context.other_card.base.suit == "Hearts" or SMODS.has_any_suit(context.other_card)) then
-            G.GAME.cur_motivation = G.GAME.cur_motivation + 0.2
+            G.E_MANAGER:add_event(Event({
+                trigger = "after", 
+                delay = 0.4, 
+                func = function() 
+                    ease_motive(0.2, true)
+                    return true 
+                end
+            }))
         end
 	end
 end
@@ -88,14 +102,7 @@ function Game:start_run(args)
     end
 end
 
--- I Wanted to round things ok?
-local function round(num, numDecimalPlaces)
-  if numDecimalPlaces and numDecimalPlaces>0 then
-    local mult = 10^numDecimalPlaces
-    return math.floor(num * mult + 0.5) / mult
-  end
-  return math.floor(num + 0.5)
-end
+
 
 -- UI HOOKS
 
@@ -115,7 +122,7 @@ function create_UIBox_HUD()
             }},
             {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.R, config={align = "cm", r = 0.1, minw = 0.8, colour = temp_col2}, nodes={
-                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'cur_motivation'}}, font = G.LANGUAGES['en-us'].font, colours = {G.C.ORANGE},shadow = true, rotate = true, scale = 2*scale}),id = 'discard_UI_count'}},
+                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'cur_motivation'}}, font = G.LANGUAGES['en-us'].font, colours = {G.C.ORANGE},shadow = true, rotate = true, scale = 2*scale}),id = 'motive_UI_count'}},
             }}
             }},
         }},
@@ -126,7 +133,7 @@ function create_UIBox_HUD()
         {n=G.UIT.C, config={align = "cm", padding = 0.05, minw = 1.75 + spacing, minh = 1.15, colour = temp_col, emboss = 0.05, r = 0.1}, nodes={
             {n=G.UIT.R, config={align = "cm"}, nodes={
             {n=G.UIT.C, config={align = "cm", r = 0.1, minw = 1.50+spacing, minh = 1, colour = temp_col2}, nodes={
-                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'dollars', prefix = localize('$')}}, maxw = 1.35, colours = {G.C.MONEY}, font = G.LANGUAGES['en-us'].font, shadow = true,spacing = 2, bump = true, scale = 2.2*scale}), id = 'dollar_text_UI'}}
+                {n=G.UIT.O, config={object = DynaText({string = {{ref_table = G.GAME, ref_value = 'dollars', prefix = localize('$')}}, maxw = 1.35, colours = {G.C.MONEY}, font = G.LANGUAGES['en-us'].font, shadow = true,spacing = 2, bump = true, scale = 2*scale}), id = 'dollar_text_UI'}}
             }},
             }},
         }},

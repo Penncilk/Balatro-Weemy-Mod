@@ -403,3 +403,6 @@ SMODS.Joker {
 		end
 	end
 }
+
+-- Consumables
+
