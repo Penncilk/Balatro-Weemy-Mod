@@ -23,3 +23,15 @@ UpgradeColours = {
 	Tier2 = function() return create_badge('Tier 2', G.C.WHITE, G.C.BLACK, 1.2 ) end,
 	Tier3 = function() return create_badge('Tier 3', G.C.WHITE, G.C.BLACK, 1.2 ) end,
 }
+
+Tier1to2 = {
+	j_weem_Sine1 = "j_weem_Sine2",
+	j_weem_Clover1 = "j_weem_Clover2",
+	j_weem_Kris1 = "j_weem_Kris2"
+}
+
+Tier2to3 = {
+	j_weem_Sine2 = "j_weem_Sine3",
+	j_weem_Clover2 = "j_weem_Clover3",
+	j_weem_Kris2 = "j_weem_Kris3"
+}

@@ -406,3 +406,85 @@ SMODS.Joker {
 
 -- Consumables
 
+SMODS.Sound {
+	key = "uppy",
+	path = {
+		['default'] = "e_upgrade_sound.wav",
+	}
+}
+
+SMODS.Consumable {
+    key = "resilience",
+    set = 'Tarot',
+    loc_txt = {
+        label = 'resilience',
+        name = 'Resilience',
+        text = { 
+            'Upgrades Leftmost Tier1 Joker',
+            'To its next form'
+        },
+    },
+    config =  { select = 2, money = 5 },
+    loc_vars = function(self, info_queue, card) 
+        return { vars = { card.ability.select, card.ability.money } }
+    end,
+    atlas = 'consume',
+    pos = {x = 4, y = 0},
+    use = function(self, card, area, copier)
+		local newcard = Tier1to2[G.jokers.cards[1].config.center_key]
+		G.jokers.cards[1]:remove()
+		SMODS.add_card({key = newcard})
+		play_sound('weem_uppy')
+    end,
+
+    can_use = function(self, card)
+		if G.jokers.cards[1] ~= nil then
+			for i, _ in pairs(Tier1to2) do
+				if G.jokers.cards[1].config.center_key == i then
+					return true
+				end
+			end
+		end
+		return false
+    end,
+}
+
+SMODS.Consumable {
+    key = "powerin",
+    set = 'Spectral',
+    loc_txt = {
+        label = 'Power Inside',
+        name = 'Power Inside',
+        text = { 
+            'Upgrades Leftmost Tier2 Joker',
+            'To its next form'
+        },
+    },
+    config =  { select = 2, money = 5 },
+    loc_vars = function(self, info_queue, card) 
+        return { vars = { card.ability.select, card.ability.money } }
+    end,
+    atlas = 'consume',
+    pos = {x = 5, y = 0},
+
+	hidden = true,
+	soul_rate = 0.125,
+
+    use = function(self, card, area, copier)
+		local newcard = Tier2to3[G.jokers.cards[1].config.center_key]
+		G.jokers.cards[1]:remove()
+		SMODS.add_card({key = newcard})
+		play_sound('weem_uppy')
+    end,
+
+    can_use = function(self, card)
+		if G.jokers.cards[1] ~= nil then
+			for i, _ in pairs(Tier2to3) do
+				if G.jokers.cards[1].config.center_key == i then
+					return true
+				end
+			end
+		end
+		return false
+    end,
+}
