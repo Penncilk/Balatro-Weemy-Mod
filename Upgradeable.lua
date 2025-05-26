@@ -420,7 +420,7 @@ SMODS.Consumable {
         label = 'resilience',
         name = 'Resilience',
         text = { 
-            'Upgrades Leftmost Tier1 Joker',
+            'Upgrades Leftmost {C:attention}Tier1{} Joker',
             'To its next form'
         },
     },
@@ -456,7 +456,7 @@ SMODS.Consumable {
         label = 'Power Inside',
         name = 'Power Inside',
         text = { 
-            'Upgrades Leftmost Tier2 Joker',
+            'Upgrades Leftmost {C:attention}Tier2{} Joker',
             'To its next form'
         },
     },
