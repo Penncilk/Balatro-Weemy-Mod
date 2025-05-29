@@ -135,7 +135,7 @@ SMODS.Joker {
 
 	atlas = 'KRis',
 
-	pos = { x = 3, y = 0 },
+	pos = { x = 6, y = 1 },
 
 	cost = 20,
 
@@ -271,7 +271,7 @@ SMODS.Joker {
 
 	atlas = 'KRis',
 
-	pos = { x = 1, y = 0 },
+	pos = { x = 7, y = 1 },
 
 	cost = 4,
 
