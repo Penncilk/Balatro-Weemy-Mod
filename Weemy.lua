@@ -270,6 +270,39 @@ SMODS.Joker {
 
 SMODS.Joker {
 
+	key = 'rensen',
+
+	loc_txt = {
+		name = 'Rensenware',
+		text = {
+			"PLACEHOLDER TEXT"
+			}
+	},
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 2,
+	config =  {  },
+
+
+	atlas = 'KRis',
+
+	pos = { x = 6, y = 0 },
+
+	cost = 10,
+
+	loc_vars = function(self, info_queue, card)
+		return { vars = {  } }
+	end,
+	calculate = function(self, card, context)
+
+	end
+}
+
+
+SMODS.Joker {
+
 	key = 'Azzy',
 
 	loc_txt = {
