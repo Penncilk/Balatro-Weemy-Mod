@@ -11,6 +11,5 @@ WeemColours = {
 	Sine = function() return create_badge('Sine', G.C.YELLOW, G.C.BLACK, 1.2 ) end,
 	Clover = function() return create_badge('Clover', G.C.BLUE, G.C.WHITE, 1.2 ) end,
 	Azzy = function() return create_badge('Azzy', G.C.PURPLE, G.C.WHITE, 1.2 ) end,
-	Ethan = function() return create_badge('Ethan', G.C.BLACK, G.C.WHITE, 1.2 ) end,
-	Jade = function() return create_badge('Jade', G.C.ORANGE, G.C.WHITE, 1.2 ) end
+	Ethan = function() return create_badge('Ethan', G.C.BLACK, G.C.WHITE, 1.2 ) end
 }

@@ -270,53 +270,6 @@ SMODS.Joker {
 
 SMODS.Joker {
 
-	key = 'Fish',
-
-	loc_txt = {
-		name = 'Cat Fish',
-		text = {
-			"{C:mult}+#1#{} mult per {C:money}$#2#{} you have",
-			"lose {C:money}$#4#{} at the end of round",
-			"{C:inactive}(Currently {C:mult}+#3#{C:inactive} Mult)"
-			}
-	},
-	set_badges = function(self, card, badges)
- 		badges[#badges+1] = WeemColours.Jade()
- 	end,
-	blueprint_compat = true,
-	perishable_compat = true,
-	eternal_compat = true,
-	rarity = 2,
-	-- Nerfed it a bit -Lena
-	config =  { mult = 15, money = 20, money_loss = 20 },
-
-
-	atlas = 'KRis',
-
-	pos = { x = 6, y = 0 },
-
-	cost = 10,
-
-	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.mult, card.ability.money, (card.ability.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/card.ability.money)), card.ability.money_loss } }
-	end,
-	calculate = function(self, card, context)
-		if context.joker_main and to_number(math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/card.ability.money)) >= 1 then
-        	return {
-				mult = to_number(card.ability.mult*math.floor((G.GAME.dollars + (G.GAME.dollar_buffer or 0))/card.ability.money))
-			}
-        end
-		if context.end_of_round and context.cardarea == G.jokers then 
-			return {
-				dollars = ((-1)*card.ability.money_loss),
-			}
-		end
-	end
-}
-
-
-SMODS.Joker {
-
 	key = 'Azzy',
 
 	loc_txt = {
