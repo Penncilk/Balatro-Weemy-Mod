@@ -931,9 +931,84 @@ SMODS.Joker {
 		end
 	end,
 
+}
 
+SMODS.Joker {
+
+	key = 'magnus',
+
+	loc_txt = {
+		name = 'M4GNU5',
+		text = {
+			"Copies ability of Joker to the right",
+			"...once it processes the statement",
+			"Timer restarts every ante",
+			"{C:attention}#1#{} turns left..."
+			}
+	},
+
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 1,
+
+	atlas = 'KRis',
+
+	pos = { x = 5, y = 1 },
+
+	cost = 3,
+	
+	config = { waittime = 3 },
+	
+	loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.waittime } }
+    end,
+
+	
+	calculate = function(self, card, context)
+
+	end,
 
 }
+
+SMODS.Joker {
+
+	key = 'monoxol',
+
+	loc_txt = {
+		name = 'Killing Favorites',
+		text = {
+			"Retriggers the first card played {C:attention}#1#{} times",
+			"and then {C:red}destroys it{}"
+			}
+	},
+
+
+	blueprint_compat = true,
+	perishable_compat = true,
+	eternal_compat = true,
+	rarity = 2,
+
+	atlas = 'KRis',
+
+	pos = { x = 6, y = 1 },
+
+	cost = 3,
+	
+	config = { retrig = 5 },
+	
+	loc_vars = function(self, info_queue, card)
+        return { vars = { card.ability.retrig } }
+    end,
+
+	
+	calculate = function(self, card, context)
+
+	end,
+
+}
+
 
 
 -- TODO:
