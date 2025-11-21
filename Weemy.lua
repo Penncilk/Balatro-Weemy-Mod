@@ -456,13 +456,13 @@ SMODS.Joker {
 	end,
 	
 	calculate = function(self, card, context)
-		if context.destroying_card and not context.blueprint then
+		if context.destroying_card and context.cardarea == G.play and not context.blueprint then
 			local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-                        for k, v in pairs(G.GAME.hands) do
-                            if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-								return not context.destroying_card.ability.eternal
-							end
-                        end
+			for k, v in pairs(G.GAME.hands) do
+				if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
+					return not context.destroying_card.ability.eternal
+				end
+			end
 		end
 			if context.joker_main then
 			return{
@@ -959,7 +959,7 @@ SMODS.Joker {
 
 	cost = 3,
 	
-	config = { waittime = 3 },
+	config = { waittime = 3, startwaittime = 3 },
 	
 	loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.waittime } }
@@ -979,7 +979,7 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'Killing Favorites',
 		text = {
-			"Retriggers the first card played {C:attention}#1#{} times",
+			"Retriggers the last card played {C:attention}#1#{} times",
 			"and then {C:red}destroys it{}"
 			}
 	},
@@ -996,15 +996,26 @@ SMODS.Joker {
 
 	cost = 3,
 	
-	config = { retrig = 5 },
+	config = { repetitions = 5 },
 	
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.retrig } }
+        return { vars = { card.ability.repetitions } }
     end,
 
 	
 	calculate = function(self, card, context)
+		if context.repetition and context.cardarea == G.play then
+			if (context.other_card == context.scoring_hand[#context.scoring_hand]) then
+				return {
+					repetitions = card.ability.repetitions,
+					card = context.other_card,
+				}
+			end
+		end
 
+		if context.destroy_card and context.destroy_card == context.scoring_hand[#context.scoring_hand] then 
+				return { remove = true } 
+		end
 	end,
 
 }
