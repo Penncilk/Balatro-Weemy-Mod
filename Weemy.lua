@@ -962,13 +962,14 @@ SMODS.Joker {
 	
 	calculate = function(self, card, context)
 		if context.joker_main then
+			card.ability.turns = card.ability.turns - 1
 			G.E_MANAGER:add_event(Event({
 				func = function()
 					play_sound('weem_ding')
 					return true
 				end
 			}))
-			card.ability.turns = card.ability.turns - 1
+			
 			return {
 				message = "processing..."
 			}
