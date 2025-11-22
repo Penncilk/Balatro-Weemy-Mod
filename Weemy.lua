@@ -940,34 +940,46 @@ SMODS.Joker {
 	loc_txt = {
 		name = 'M4GNU5',
 		text = {
-			"Copies ability of Joker to the right",
-			"...once it processes the statement",
-			"Timer restarts every ante",
-			"{C:attention}#1#{} turns left..."
+			"Gives {C:attention}#1#%{} of the blind requirement as chips",
+			"...Once it finishes processing the request.",
+			"{C:attention}#2#{} turns left"
 			}
 	},
 
 
-	blueprint_compat = true,
-	perishable_compat = true,
+	blueprint_compat = false,
+	perishable_compat = false,
 	eternal_compat = true,
-	rarity = 1,
+	rarity = 3,
 
 	atlas = 'KRis',
 
 	pos = { x = 5, y = 1 },
 
-	cost = 3,
+	cost = 6,
 	
-	config = { waittime = 3, startwaittime = 3 },
+	config = { percent = 35, turns = 3, startTurns = 3 },
 	
 	loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.waittime } }
+        return { vars = { card.ability.percent, card.ability.turns } }
     end,
 
 	
 	calculate = function(self, card, context)
-
+		if context.joker_main then
+			if (card.ability.turns <= 1) then
+				card.ability.turns = card.ability.startTurns
+				return {
+					chips = G.GAME.blind.chips * (card.ability.percent / 100),
+					message = "Found optimal solution",
+				}
+			else
+				card.ability.turns = card.ability.turns - 1
+				return {
+					message = "processing..."
+				}
+			end
+		end
 	end,
 
 }
