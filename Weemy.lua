@@ -1,9 +1,4 @@
-SMODS.Sound {
-	key = "slash",
-	path = {
-		['default'] = "e_the_gift_slash.ogg",
-	}
-}
+
 
 
 SMODS.Joker {
@@ -967,17 +962,30 @@ SMODS.Joker {
 	
 	calculate = function(self, card, context)
 		if context.joker_main then
-			if (card.ability.turns <= 1) then
+			G.E_MANAGER:add_event(Event({
+				func = function()
+					play_sound('weem_ding')
+					return true
+				end
+			}))
+			card.ability.turns = card.ability.turns - 1
+			return {
+				message = "processing..."
+			}
+		end
+		if context.after then
+			if (card.ability.turns <= 0) then
 				card.ability.turns = card.ability.startTurns
-				return {
-					chips = G.GAME.blind.chips * (card.ability.percent / 100),
-					message = "Found optimal solution",
-				}
-			else
-				card.ability.turns = card.ability.turns - 1
-				return {
-					message = "processing..."
-				}
+				G.E_MANAGER:add_event(Event({
+					trigger = "after", 
+    				delay = 1,
+					func = function()
+						G.GAME.chips = G.GAME.chips + (G.GAME.blind.chips * (card.ability.percent / 100))
+						play_sound('weem_tada')
+						return true
+					end
+				}))
+				
 			end
 		end
 	end,
