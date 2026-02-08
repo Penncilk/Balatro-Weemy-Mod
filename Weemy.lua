@@ -2,21 +2,10 @@
 
 
 SMODS.Joker {
-	-- How the code refers to the joker.
 	key = 'skris',
-	-- loc_text is the actual name and description that show in-game for the card.
 	loc_txt = {
 		name = 'Exposed Heart',
 		text = {
-			--[[
-			The #1# is a variable that's stored in config, and is put into loc_vars.
-			The {C:} is a color modifier, and uses the color "mult" for the "+#1# " part, and then the empty {} is to reset all formatting, so that Mult remains uncolored.
-				There's {X:}, which sets the background, usually used for XMult.
-				There's {s:}, which is scale, and multiplies the text size by the value, like 0.8
-				There's one more, {V:1}, but is more advanced, and is used in Castle and Ancient Jokers. It allows for a variable to dynamically change the color. You can find an example in the Castle joker if needed.
-				Multiple variables can be used in one space, as long as you separate them with a comma. {C:attention, X:chips, s:1.3} would be the yellow attention color, with a blue chips-colored background,, and 1.3 times the scale of other text.
-				You can find the vanilla joker descriptions and names as well as several other things in the localization files.
-				]]
 			"If played hand is a flush of {C:mult}hearts{}",
 			"retrigger all played cards"
 			}
@@ -24,48 +13,26 @@ SMODS.Joker {
  	set_badges = function(self, card, badges)
  		badges[#badges+1] = WeemColours.Kris()
  	end,
-	--[[
-		Config sets all the variables for your card, you want to put all numbers here.
-		This is really useful for scaling numbers, but should be done with static numbers -
-		If you want to change the static value, you'd only change this number, instead
-		of going through all your code to change each instance individually.
-		]]
 	blueprint_compat = true,
 	perishable_compat = true,
 	eternal_compat = true,
 	config = { extra = { repetitions = 1 } },
-	-- loc_vars gives your loc_text variables to work with, in the format of #n#, n being the variable in order.
-	-- #1# is the first variable in vars, #2# the second, #3# the third, and so on.
-	-- It's also where you'd add to the info_queue, which is where things like the negative tooltip are.
-	-- Sets rarity. 1 common, 2 uncommon, 3 rare, 4 legendary.
 	rarity = 2,
-	-- Which atlas key to pull from.
 	atlas = 'KRis',
-	-- This card's position on the atlas, starting at {x=0,y=0} for the very top left.
 	pos = { x = 0, y = 0 },
-	-- Cost of card in shop.
 	cost = 6,
 	
-	-- The functioning part of the joker, looks at context to decide what step of scoring the game is on, and then gives a 'return' value if something activates.
 	calculate = function(self, card, context)
 
 	
 		if context.repetition and context.cardarea == G.play and next(context.poker_hands['Flush']) then
-
-			-- context.other_card is something that's used when either context.individual or context.repetition is true
-			-- It is each card 1 by 1, but in other cases, you'd need to iterate over the scoring hand to check which cards are there.
 			if (context.other_card.base.suit == "Hearts" or SMODS.has_any_suit(context.other_card)) then
 				return {
 					repetitions = card.ability.extra.repetitions,
-				-- The card the repetitions are applying to is context.other_card
 					
 					card = context.other_card,
-				-- This is a localize function. Localize looks through the localization files, and translates it. It ensures your mod is able to be translated. I've left it out in most cases for clarity reasons, but this one is required, because it has a variable.
-				-- This specifically looks in the localization table for the 'variable' category, specifically under 'v_dictionary' in 'localization/en-us.lua', and searches that table for 'a_mult', which is short for add mult.
-				-- In the localization file, a_mult = "+#1#". Like with loc_vars, the vars in this message variable replace the #1#.
 
 					message = 'Again!',
-				-- Without this, the mult will stil be added, but it'll just show as a blank red square that doesn't have any text.
 				}
 			end
 		end
@@ -188,8 +155,7 @@ SMODS.Joker {
 	end,	
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
-				-- Checks to see if the id is an ace or face card,
-				-- Otherwise return the id, as it is equal to the card's value
+				-- Gets the value the cards has as its numerical value, and then uses it
 				local give_amount = context.other_card.base.nominal
 				local possible_messages = {
 					'Haha yeah!!',
@@ -391,11 +357,7 @@ SMODS.Joker {
 				if SMODS.has_enhancement(context.other_card, 'm_wild') then 
 					
 					if card_settings.Destroy then
-						-- Killin' a card ain't no big deal!
-						-- Just put a gun to its head
-						-- POW...
-
-						-- [Insert FNF song "IRON LUNG" here]
+						-- Uses the burning animation for destroying the card
 						context.other_card:start_dissolve({G.C.RED}, nil, 1.6)
 					else
 						context.other_card:set_ability(G.P_CENTERS.c_base, nil, true)
@@ -466,24 +428,6 @@ SMODS.Joker {
 
 		end
 	end
-	-- if context.before and not context.blueprint then
-	-- local reset = true
-    -- local play_more_than = (G.GAME.hands[context.scoring_name].played or 0)
-        -- for k, v in pairs(G.GAME.hands) do
-                -- if k ~= context.scoring_name and v.played >= play_more_than and v.visible then
-                        -- reset = false
-                -- end
-                -- if reset then
-                        -- return {
-								-- mult = card.ability.mult
-								-- }
-				-- else
-					-- if context.destroy_card and not context.blueprint then
-							-- return not context.destroying_card.ability.eterna
-					-- end
-				-- end	
-		-- end
-	-- end
 }
 
 SMODS.Joker {
@@ -1040,12 +984,3 @@ SMODS.Joker {
 	end,
 
 }
-
-
-
--- TODO:
--- Have people proofread, make sure my overly long way of writing is actually legible or cut down to make sure it's legible.
-
-
-----------------------------------------------
-------------MOD CODE END----------------------
